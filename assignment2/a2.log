@@ -1,0 +1,657 @@
+This is LuaHBTeX, Version 1.14.0 (MiKTeX 21.8) (format=lualatex 2022.10.3)  3 OCT 2022 21:58
+ restricted system commands enabled.
+**a2.tex
+(./a2.tex
+LaTeX2e <2021-06-01> patch level 1
+Lua module: luaotfload 2021-05-21 3.18 Lua based OpenType font support
+Lua module: lualibs 2021-05-20 2.74 ConTeXt Lua standard libraries.
+Lua module: lualibs-extended 2021-05-20 2.74 ConTeXt Lua libraries -- extended c
+ollection.
+luaotfload | conf : Root cache directory is "C:/Users/chuanshaof/AppData/Local/M
+iKTeX/luatex-cache/generic/names".
+luaotfload | init : Loading fontloader "fontloader-2021-05-20.lua" from kpse-res
+olved path "C:/Users/chuanshaof/AppData/Local/Programs/MiKTeX/tex/luatex/luaotfl
+oad/fontloader-2021-05-20.lua".
+Lua-only attribute luaotfload@noligature = 1
+Lua-only attribute luaotfload@syllabe = 2
+luaotfload | init : Context OpenType loader version 3.116
+Inserting `luaotfload.node_processor' at position 1 in `pre_linebreak_filter'.
+Inserting `luaotfload.node_processor' at position 1 in `hpack_filter'.
+Inserting `luaotfload.glyph_stream' at position 1 in `glyph_stream_provider'.
+Inserting `luaotfload.define_font' at position 1 in `define_font'.
+Lua-only attribute luaotfload_color_attribute = 3
+luaotfload | conf : Root cache directory is "C:/Users/chuanshaof/AppData/Local/M
+iKTeX/luatex-cache/generic/names".
+Inserting `luaotfload.harf.strip_prefix' at position 1 in `find_opentype_file'.
+Inserting `luaotfload.harf.strip_prefix' at position 1 in `find_truetype_file'.
+Inserting `luaotfload.harf.finalize_vlist' at position 1 in `post_linebreak_filt
+er'.
+Inserting `luaotfload.harf.finalize_hlist' at position 2 in `hpack_filter'.
+Inserting `luaotfload.cleanup_files' at position 1 in `wrapup_run'.
+Inserting `luaotfload.harf.finalize_unicode' at position 1 in `finish_pdffile'.
+Inserting `luaotfload.glyphinfo' at position 1 in `glyph_info'.
+Lua-only attribute luaotfload.letterspace_done = 4
+Inserting `luaotfload.aux.set_sscale_dimens' at position 1 in `luaotfload.patch_
+font'.
+Inserting `luaotfload.aux.set_font_index' at position 2 in `luaotfload.patch_fon
+t'.
+Inserting `luaotfload.aux.patch_cambria_domh' at position 3 in `luaotfload.patch
+_font'.
+Inserting `luaotfload.aux.fixup_fontdata' at position 1 in `luaotfload.patch_fon
+t_unsafe'.
+Inserting `luaotfload.aux.set_capheight' at position 4 in `luaotfload.patch_font
+'.
+Inserting `luaotfload.aux.set_xheight' at position 5 in `luaotfload.patch_font'.
+Inserting `luaotfload.rewrite_fontname' at position 6 in `luaotfload.patch_font'
+. L3 programming layer <2021-08-27>
+Inserting `tracingstacklevels' at position 1 in `input_level_string'.
+(C:/Users/chuanshaof/AppData/Local/Programs/MiKTeX/tex/latex/base/article.cls
+Document Class: article 2021/02/12 v1.4n Standard LaTeX document class
+(C:/Users/chuanshaof/AppData/Local/Programs/MiKTeX/tex/latex/base/size10.clo
+File: size10.clo 2021/02/12 v1.4n Standard LaTeX file (size option)
+luaotfload | db : Font names database loaded from C:/Users/chuanshaof/AppData/Lo
+cal/MiKTeX/luatex-cache/generic/names/luaotfload-names.luc)
+\c@part=\count179
+\c@section=\count180
+\c@subsection=\count181
+\c@subsubsection=\count182
+\c@paragraph=\count183
+\c@subparagraph=\count184
+\c@figure=\count185
+\c@table=\count186
+\abovecaptionskip=\skip47
+\belowcaptionskip=\skip48
+\bibindent=\dimen138
+)
+(C:/Users/chuanshaof/AppData/Local/Programs/MiKTeX/tex/latex/preprint/fullpage.
+sty
+Package: fullpage 1999/02/23 1.1 (PWD)
+\FP@margin=\skip49
+)
+(C:/Users/chuanshaof/AppData/Local/Programs/MiKTeX/tex/latex/graphics/color.sty
+Package: color 2020/02/24 v1.2b Standard LaTeX Color (DPC)
+
+(C:/Users/chuanshaof/AppData/Local/Programs/MiKTeX/tex/latex/graphics-cfg/color
+.cfg
+File: color.cfg 2016/01/02 v1.6 sample color configuration
+)
+Package color Info: Driver file: luatex.def on input line 149.
+
+(C:/Users/chuanshaof/AppData/Local/Programs/MiKTeX/tex/latex/graphics-def/luate
+x.def
+File: luatex.def 2021/06/01 v1.2c Graphics/color driver for luatex
+))
+(C:/Users/chuanshaof/AppData/Local/Programs/MiKTeX/tex/latex/amsmath/amsmath.st
+y
+Package: amsmath 2021/04/20 v2.17j AMS math features
+\@mathmargin=\skip50
+
+For additional information on amsmath, use the `?' option.
+
+(C:/Users/chuanshaof/AppData/Local/Programs/MiKTeX/tex/latex/amsmath/amstext.st
+y
+Package: amstext 2000/06/29 v2.01 AMS text
+
+(C:/Users/chuanshaof/AppData/Local/Programs/MiKTeX/tex/latex/amsmath/amsgen.sty
+File: amsgen.sty 1999/11/30 v2.0 generic functions
+\@emptytoks=\toks16
+\ex@=\dimen139
+))
+(C:/Users/chuanshaof/AppData/Local/Programs/MiKTeX/tex/latex/amsmath/amsbsy.sty
+Package: amsbsy 1999/11/29 v1.2d Bold Symbols
+\pmbraise@=\dimen140
+)
+(C:/Users/chuanshaof/AppData/Local/Programs/MiKTeX/tex/latex/amsmath/amsopn.sty
+Package: amsopn 2016/03/08 v2.02 operator names
+)
+\inf@bad=\count187
+LaTeX Info: Redefining \frac on input line 236.
+\uproot@=\count188
+\leftroot@=\count189
+LaTeX Info: Redefining \overline on input line 399.
+\classnum@=\count190
+\DOTSCASE@=\count191
+LaTeX Info: Redefining \ldots on input line 496.
+LaTeX Info: Redefining \dots on input line 499.
+LaTeX Info: Redefining \cdots on input line 620.
+\Mathstrutbox@=\box50
+\strutbox@=\box51
+\big@size=\dimen141
+LaTeX Font Info:    Redeclaring font encoding OML on input line 743.
+LaTeX Font Info:    Redeclaring font encoding OMS on input line 744.
+\macc@depth=\count192
+\c@MaxMatrixCols=\count193
+\dotsspace@=\muskip16
+\c@parentequation=\count194
+\dspbrk@lvl=\count195
+\tag@help=\toks17
+\row@=\count196
+\column@=\count197
+\maxfields@=\count198
+\andhelp@=\toks18
+\eqnshift@=\dimen142
+\alignsep@=\dimen143
+\tagshift@=\dimen144
+\tagwidth@=\dimen145
+\totwidth@=\dimen146
+\lineht@=\dimen147
+\@envbody=\toks19
+\multlinegap=\skip51
+\multlinetaggap=\skip52
+\mathdisplay@stack=\toks20
+LaTeX Info: Redefining \[ on input line 2923.
+LaTeX Info: Redefining \] on input line 2924.
+) (C:/Users/chuanshaof/AppData/Local/Programs/MiKTeX/tex/latex/url/url.sty
+\Urlmuskip=\muskip17
+Package: url 2013/09/16  ver 3.4  Verb mode for urls, etc.
+)
+(C:/Users/chuanshaof/AppData/Local/Programs/MiKTeX/tex/latex/tools/verbatim.sty
+Package: verbatim 2020-07-07 v1.5u LaTeX2e package for verbatim enhancements
+\every@verbatim=\toks21
+\verbatim@line=\toks22
+\verbatim@in@stream=\read2
+)
+(C:/Users/chuanshaof/AppData/Local/Programs/MiKTeX/tex/latex/graphics/graphicx.
+sty
+Package: graphicx 2020/12/05 v1.2c Enhanced LaTeX Graphics (DPC,SPQR)
+
+(C:/Users/chuanshaof/AppData/Local/Programs/MiKTeX/tex/latex/graphics/keyval.st
+y
+Package: keyval 2014/10/28 v1.15 key=value parser (DPC)
+\KV@toks@=\toks23
+)
+(C:/Users/chuanshaof/AppData/Local/Programs/MiKTeX/tex/latex/graphics/graphics.
+sty
+Package: graphics 2021/03/04 v1.4d Standard LaTeX Graphics (DPC,SPQR)
+
+(C:/Users/chuanshaof/AppData/Local/Programs/MiKTeX/tex/latex/graphics/trig.sty
+Package: trig 2016/01/03 v1.10 sin cos tan (DPC)
+)
+(C:/Users/chuanshaof/AppData/Local/Programs/MiKTeX/tex/latex/graphics-cfg/graph
+ics.cfg
+File: graphics.cfg 2016/06/04 v1.11 sample graphics configuration
+)
+Package graphics Info: Driver file: luatex.def on input line 107.
+)
+\Gin@req@height=\dimen148
+\Gin@req@width=\dimen149
+)
+(C:/Users/chuanshaof/AppData/Local/Programs/MiKTeX/tex/latex/parskip/parskip.st
+y
+Package: parskip 2021-03-14 v2.0h non-zero parskip adjustments
+
+(C:/Users/chuanshaof/AppData/Local/Programs/MiKTeX/tex/latex/kvoptions/kvoption
+s.sty
+Package: kvoptions 2020-10-07 v3.14 Key value format for package options (HO)
+
+(C:/Users/chuanshaof/AppData/Local/Programs/MiKTeX/tex/generic/ltxcmds/ltxcmds.
+sty
+Package: ltxcmds 2020-05-10 v1.25 LaTeX kernel commands for general use (HO)
+)
+(C:/Users/chuanshaof/AppData/Local/Programs/MiKTeX/tex/generic/kvsetkeys/kvsetk
+eys.sty
+Package: kvsetkeys 2019/12/15 v1.18 Key value parser (HO)
+))
+(C:/Users/chuanshaof/AppData/Local/Programs/MiKTeX/tex/latex/etoolbox/etoolbox.
+sty
+Package: etoolbox 2020/10/05 v2.5k e-TeX tools for LaTeX (JAW)
+\etb@tempcnta=\count199
+))
+(C:/Users/chuanshaof/AppData/Local/Programs/MiKTeX/tex/latex/amsfonts/amssymb.s
+ty
+Package: amssymb 2013/01/14 v3.01 AMS font symbols
+
+(C:/Users/chuanshaof/AppData/Local/Programs/MiKTeX/tex/latex/amsfonts/amsfonts.
+sty
+Package: amsfonts 2013/01/14 v3.01 Basic AMSFonts support
+\symAMSa=\mathgroup4
+\symAMSb=\mathgroup5
+LaTeX Font Info:    Redeclaring math symbol \hbar on input line 98.
+LaTeX Font Info:    Overwriting math alphabet `\mathfrak' in version `bold'
+(Font)                  U/euf/m/n --> U/euf/b/n on input line 106.
+))
+(C:/Users/chuanshaof/AppData/Local/Programs/MiKTeX/tex/latex/units/nicefrac.sty
+Package: nicefrac 1998/08/04 v0.9b Nice fractions
+\L@UnitsRaiseDisplaystyle=\skip53
+\L@UnitsRaiseTextstyle=\skip54
+\L@UnitsRaiseScriptstyle=\skip55
+(C:/Users/chuanshaof/AppData/Local/Programs/MiKTeX/tex/latex/base/ifthen.sty
+Package: ifthen 2020/11/24 v1.1c Standard LaTeX ifthen package (DPC)
+))
+(C:/Users/chuanshaof/AppData/Local/Programs/MiKTeX/tex/latex/listings/listings.
+sty
+\lst@mode=\count266
+\lst@gtempboxa=\box52
+\lst@token=\toks24
+\lst@length=\count267
+\lst@currlwidth=\dimen150
+\lst@column=\count268
+\lst@pos=\count269
+\lst@lostspace=\dimen151
+\lst@width=\dimen152
+\lst@newlines=\count270
+\lst@lineno=\count271
+\lst@maxwidth=\dimen153
+
+(C:/Users/chuanshaof/AppData/Local/Programs/MiKTeX/tex/latex/listings/lstmisc.s
+ty
+File: lstmisc.sty 2020/03/24 1.8d (Carsten Heinz)
+\c@lstnumber=\count272
+\lst@skipnumbers=\count273
+\lst@framebox=\box53
+)
+(C:/Users/chuanshaof/AppData/Local/Programs/MiKTeX/tex/latex/listings/listings.
+cfg
+File: listings.cfg 2020/03/24 1.8d listings configuration
+))
+Package: listings 2020/03/24 1.8d (Carsten Heinz)
+
+(C:/Users/chuanshaof/AppData/Local/Programs/MiKTeX/tex/latex/algorithm2e/algori
+thm2e.sty
+Package: algorithm2e 2017/07/18 v5.2 algorithms environments
+\c@AlgoLine=\count274
+\algocf@hangindent=\skip56
+
+(C:/Users/chuanshaof/AppData/Local/Programs/MiKTeX/tex/latex/ifoddpage/ifoddpag
+e.sty
+Package: ifoddpage 2016/04/23 v1.1 Conditionals for odd/even page detection
+\c@checkoddpage=\count275
+)
+(C:/Users/chuanshaof/AppData/Local/Programs/MiKTeX/tex/latex/tools/xspace.sty
+Package: xspace 2014/10/28 v1.13 Space after command names (DPC,MH)
+)
+(C:/Users/chuanshaof/AppData/Local/Programs/MiKTeX/tex/latex/relsize/relsize.st
+y
+Package: relsize 2013/03/29 ver 4.1
+)
+\skiptotal=\skip57
+\skiplinenumber=\skip58
+\skiprule=\skip59
+\skiphlne=\skip60
+\skiptext=\skip61
+\skiplength=\skip62
+\algomargin=\skip63
+\skipalgocfslide=\skip64
+\algowidth=\dimen154
+\inoutsize=\dimen155
+\inoutindent=\dimen156
+\interspacetitleruled=\dimen157
+\interspacealgoruled=\dimen158
+\interspacetitleboxruled=\dimen159
+\algocf@ruledwidth=\skip65
+\algocf@inoutbox=\box54
+\algocf@inputbox=\box55
+\AlCapSkip=\skip66
+\AlCapHSkip=\skip67
+\algoskipindent=\skip68
+\algocf@nlbox=\box56
+\algocf@hangingbox=\box57
+\algocf@untilbox=\box58
+\algocf@skipuntil=\skip69
+\algocf@capbox=\box59
+\algocf@lcaptionbox=\skip70
+\algoheightruledefault=\skip71
+\algoheightrule=\skip72
+\algotitleheightruledefault=\skip73
+\algotitleheightrule=\skip74
+\c@algocfline=\count276
+\c@algocfproc=\count277
+\c@algocf=\count278
+\algocf@algoframe=\box60
+\algocf@algobox=\box61
+)
+Package color Info: Redefining color red on input line 23.
+
+(C:/Users/chuanshaof/AppData/Local/Programs/MiKTeX/tex/latex/l3backend/l3backen
+d-luatex.def
+File: l3backend-luatex.def 2021-08-04 L3 backend support: PDF output (LuaTeX)
+\l__color_backend_stack_int=\count279
+\l__pdf_internal_box=\box62
+) (./a2.aux)
+\openout1 = a2.aux
+
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 43.
+LaTeX Font Info:    Trying to load font information for TS1+cmr on input line 4
+3.
+
+(C:/Users/chuanshaof/AppData/Local/Programs/MiKTeX/tex/latex/base/ts1cmr.fd
+File: ts1cmr.fd 2019/12/16 v2.5j Standard LaTeX font definitions
+)
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for TU/lmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 43.
+LaTeX Font Info:    ... okay on input line 43.
+
+(C:/Users/chuanshaof/AppData/Local/Programs/MiKTeX/tex/context/base/mkii/supp-p
+df.mkii
+[Loading MPS to PDF converter (version 2006.09.02).]
+\scratchcounter=\count280
+\scratchdimen=\dimen160
+\scratchbox=\box63
+\nofMPsegments=\count281
+\nofMParguments=\count282
+\everyMPshowfont=\toks25
+\MPscratchCnt=\count283
+\MPscratchDim=\dimen161
+\MPnumerator=\count284
+\makeMPintoPDFobject=\count285
+\everyMPtoPDFconversion=\toks26
+)
+(C:/Users/chuanshaof/AppData/Local/Programs/MiKTeX/tex/latex/epstopdf-pkg/epsto
+pdf-base.sty
+Package: epstopdf-base 2020-01-24 v2.11 Base part for package epstopdf
+Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 4
+85.
+
+(C:/Users/chuanshaof/AppData/Local/Programs/MiKTeX/tex/latex/00miktex/epstopdf-
+sys.cfg
+File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
+))
+\c@lstlisting=\count286
+LaTeX Font Info:    Trying to load font information for U+msa on input line 48.
+
+
+(C:/Users/chuanshaof/AppData/Local/Programs/MiKTeX/tex/latex/amsfonts/umsa.fd
+File: umsa.fd 2013/01/14 v3.01 AMS symbols A
+)
+LaTeX Font Info:    Trying to load font information for U+msb on input line 48.
+
+
+(C:/Users/chuanshaof/AppData/Local/Programs/MiKTeX/tex/latex/amsfonts/umsb.fd
+File: umsb.fd 2013/01/14 v3.01 AMS symbols B
+)
+Underfull \hbox (badness 10000) in paragraph at lines 70--71
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 70--71
+
+ []
+
+[1
+
+{C:/Users/chuanshaof/AppData/Local/MiKTeX/pdftex/config/pdftex.map}] [2]
+[3] [4]
+Underfull \hbox (badness 10000) in paragraph at lines 155--156
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 155--156
+
+ []
+
+[5] [6] [7] [8]
+Underfull \hbox (badness 10000) in paragraph at lines 250--250
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 250--250
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 250--250
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 250--250
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 250--250
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 250--250
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 250--250
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 250--250
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 250--250
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 250--250
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 250--250
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 250--250
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 250--250
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 250--250
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 250--250
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 250--250
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 250--250
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 250--250
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 250--250
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 250--250
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 250--250
+
+ []
+
+[9] [10]
+Underfull \hbox (badness 10000) in paragraph at lines 300--300
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 300--300
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 300--300
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 300--300
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 300--300
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 300--300
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 300--300
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 300--300
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 300--300
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 300--300
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 300--300
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 300--300
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 300--300
+
+ []
+
+[11] [12]
+<a2f/kMeans.pdf, id=54, 602.25pt x 401.5pt>
+File: a2f/kMeans.pdf Graphic file (type pdf)
+<use a2f/kMeans.pdf>
+Package luatex.def Info: a2f/kMeans.pdf  used on input line 307.
+(luatex.def)             Requested size: 234.8775pt x 156.58437pt.
+<a2f/kMeans2.pdf, id=55, 602.25pt x 401.5pt>
+File: a2f/kMeans2.pdf Graphic file (type pdf)
+<use a2f/kMeans2.pdf>
+Package luatex.def Info: a2f/kMeans2.pdf  used on input line 310.
+(luatex.def)             Requested size: 234.8775pt x 156.58437pt.
+ [13<./a2f/kMeans.pdf><./a2f/kMeans2.pdf>]
+Underfull \hbox (badness 10000) in paragraph at lines 338--338
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 338--338
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 338--338
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 338--338
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 338--338
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 338--338
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 338--338
+
+ []
+
+
+Underfull \hbox (badness 10000) in paragraph at lines 338--338
+
+ []
+
+[14] [15] [16] [17] [18] (./a2.aux))
+
+Here is how much of LuaTeX's memory you used:
+ 5889 strings out of 478106
+ 125086,460012 words of node,token memory allocated
+ 606 words of node memory still in use:
+   6 hlist, 2 vlist, 2 rule, 3 glue, 4 kern, 1 glyph, 11 attribute, 71 glue_spec
+, 11 attribute_list, 1 write nodes
+   avail lists: 2:670,3:137,4:91,5:378,6:43,7:7574,8:85,9:648,10:12,11:512,12:1
+ 26017 multiletter control sequences out of 65536+600000
+ 71 fonts using 6455687 bytes
+ 57i,9n,63p,763b,264s stack positions out of 5000i,500n,10000p,200000b,80000s
+<//?/c:/users/chuanshaof/appdata/local/programs/miktex/fonts/opentype/public/lm/
+lmroman8-regular.otf><//?/c:/users/chuanshaof/appdata/local/programs/miktex/font
+s/opentype/public/lm/lmroman6-regular.otf><//?/c:/users/chuanshaof/appdata/local
+/programs/miktex/fonts/opentype/public/lm/lmroman7-regular.otf><//?/c:/users/chu
+anshaof/appdata/local/programs/miktex/fonts/opentype/public/lm/lmroman10-bold.ot
+f><//?/c:/users/chuanshaof/appdata/local/programs/miktex/fonts/opentype/public/l
+m/lmroman10-italic.otf><//?/c:/users/chuanshaof/appdata/local/programs/miktex/fo
+nts/opentype/public/lm/lmmono10-regular.otf><//?/c:/users/chuanshaof/appdata/loc
+al/programs/miktex/fonts/opentype/public/lm/lmroman12-bold.otf><//?/c:/users/chu
+anshaof/appdata/local/programs/miktex/fonts/opentype/public/lm/lmroman10-regular
+.otf><//?/c:/users/chuanshaof/appdata/local/programs/miktex/fonts/opentype/publi
+c/lm/lmroman17-regular.otf><C:/Users/chuanshaof/AppData/Local/Programs/MiKTeX/fo
+nts/type1/public/amsfonts/cm/cmex10.pfb><C:/Users/chuanshaof/AppData/Local/Progr
+ams/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi10.pfb><C:/Users/chuanshaof/AppDat
+a/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi12.pfb><C:/Users/chua
+nshaof/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmmi5.pfb><C
+:/Users/chuanshaof/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/
+cmmi7.pfb><C:/Users/chuanshaof/AppData/Local/Programs/MiKTeX/fonts/type1/public/
+amsfonts/cm/cmmi8.pfb><C:/Users/chuanshaof/AppData/Local/Programs/MiKTeX/fonts/t
+ype1/public/amsfonts/cm/cmr10.pfb><C:/Users/chuanshaof/AppData/Local/Programs/Mi
+KTeX/fonts/type1/public/amsfonts/cm/cmr7.pfb><C:/Users/chuanshaof/AppData/Local/
+Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy10.pfb><C:/Users/chuanshaof/A
+ppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmsy8.pfb>
+Output written on a2.pdf (18 pages, 224738 bytes).
+
+PDF statistics: 164 PDF objects out of 1000 (max. 8388607)
+ 0 named destinations out of 1000 (max. 131072)
+ 1 words of extra memory for PDF output out of 10000 (max. 100000000)
+
