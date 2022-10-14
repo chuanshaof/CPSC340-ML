@@ -42,6 +42,6 @@ function clustering2Dplot(X,y,W=[])
 		scatter!(X[y.==0,1],X[y.==0,2],legend=false,markershape=:circle,markersize=2,color=:black)
 	end
 
-	gui()
+	scatter!()
 end
 

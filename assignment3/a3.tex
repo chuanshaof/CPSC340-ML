@@ -69,6 +69,7 @@ Note: the script \emph{example\_image.jl} shows how to read an image file using 
 \pagebreak
 \item Show the image obtained if you encode the colours using $1$, $2$, $4$, and $6$ bits per pixel (instead of the original 24-bits).
 \item Save the image with 6 bits per pixel to a .PNG file with \emph{save} function. By going from 8-bits to 6-bits to store the colour of each pixel we would expect the PNG file to be 25\% smaller than the original image. Explain why you think the actual PNG file is larger or smaller than this compression value.
+\ans{I would expect for the actual PNG to be smaller. As the magnitude of compression is on an exponential basis, the number of bits to represent each pixel actually decreases by 4x and not just 25\%.}
 }
 }
 
@@ -83,9 +84,13 @@ If you run the function \emph{example\_dbCluster}, it will apply the basic densi
 Even though we know that each object was generated from one of four clusters (and we have 4 outliers), the algorithm finds 6 clusters and does not assign some of the original non-outlier objects to any cluster (points not assigned to any cluster and displayed as small black circles). However, the clusters will change if we change the parameters of the algorithm. Find and report values for the two parameters (\emph{radius} and \emph{minPts}) such that the density-based clustering method finds:
 \blu{\enum{
 \item The 4 ``true" clusters.
+\ans{radius = 1, minPts = 3}
 \item 3 clusters (merging the top two, which also seems like a reasonable interpretaition).
+\ans{radius = 5, minPts = 5}
 \item 2 clusters.
+\ans{radius = 15, minPts = 15}
 \item 1 cluster (consisting of the non-outlier points).
+\ans{radius = 20, minPts = 20}
 }}
 
 
