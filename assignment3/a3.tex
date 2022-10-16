@@ -160,13 +160,37 @@ Recall that convex loss functions are typically easier to minimize than non-conv
 
 \enum{
 \item $f(w) = \half w^2 + w^{-1}$ with $w > 0$.
+\ans{$f'(w) = w - w^-2\\
+f''(w) = 1 + 2w^3$\\
+As $w > 0$, this would mean that $f''(w) > 0$, making the function convex.}
 \item $f(w) = \max_i w_i$ with $w \in \R^n$ (maximum).
+\ans{Not sure what this means, but it looks like the L inf norm, altho on piazza says its not \\
+"f here is a function that takes in a vector w, so f returns the maximum entry of the vector w."}
 \item $f(y) = \max(0,1-t\cdot y)$ with $y\in \R$ and $t\in\{-1,+1\}$ (hinge loss).
+\ans{Let $h(y) = 0, g(y) = 1 - y, k(y) = 1 + y$ \\
+As they are all straight line equations, and their second derivative is $\geq 0$, they are all convex functions.\\
+Since $f(y)$ is the max of these convex functions, $f(y)$ is convex too.}
 \item $f(w) = \norm{Xw-y}^2 + \lambda\norm{w}_1$ with $w \in \R^d, \lambda \geq 0$ (L1-regularized least squares).
+\ans{Let $h(w) = \norm{Xw-y}^2$ and $g(w) = \lambda\norm{w}_1$\\\\
+$h(w)$ is convex as all squared norms are convex functions. \\
+$g(w)$ is convex as $\norm{w}_1$ is a convex function multiplied by a scalar constant greater than 0. \\
+As $f(w) = h(w) + g(w)$, it is a sum of convex functions, thus, $f(w)$ is also convex.}
 \item $f(w) = \sum_{i=1}^n \log(1+\exp(-y_iw^Tx_i)) $ with $w \in \R^d$ (logistic regression).
+\ans{Let $h(z) = \log(1+\exp(z)) \\
+\\
+h'(z) = \frac{\exp(z)}{1+\exp(z)} \\
+h''(z) = \frac{\exp(z)}{(\exp(z) + 1)^2}$, \\
+\\
+As $h''(z) \geq 0$ for all z, $h(z)$ is convex. \\
+\\
+Let $g(w) =  h(-y_i w^T x_i)$ \\
+\\
+Since $-y_i w^T x_i$ is linear and that the composition of a convex and linear function is convex, g(w) is convex. \\
+To expand further, $f(w) = \sum_{i=1}^n g(w)$, where f(w) is a sum of convex functions. \\
+To conclude $f(w)$ is then convex.}
 }
 
-Hint for Part 5:
+Hint for Part 5:x`
 this function may seem non-convex since it contains $\log(z)$ and $\log$ is concave, but there is a flaw in that reasoning: for example $\log(\exp(z))=z$ is convex despite containing a $\log$. To show convexity, it may be helpful to show that $\log(1+\exp(z))$ is convex, which can be done by computing the second derivative. It may simplify matters to note that $\frac{\exp(z)}{1+\exp(z)} = \frac{1}{1+\exp(-z)}$.
 
 \pagebreak
