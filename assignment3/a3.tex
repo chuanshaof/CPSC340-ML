@@ -106,8 +106,11 @@ Using our standard supervised learning notation ($X$, $y$, $w$)
 express the following functions in terms of vectors, matrices, and norms (there should be no summations or maximums).
 \blu{\enum{
 \item $\sum_{i=1}^n  |w^Tx_i - y_i| + \lambda \sum_{j=1}^{d} |w_j|$.
+\ans{$\norm{Xw-y}_1 + \lambda \norm{w}_1$}
 \item $\sum_{i=1}^n v_i (w^Tx_i - y_i)^2 + \sum_{j=1}^{d} \lambda_j w_j^2$.
+\ans{$(Xw-y)^T V (Xw-y) + w^T \Lambda w$}
 \item $\left(\max_{i \in \{1,2,\dots,n\}} |w^Tx_i - y_i|\right)^2 +  \half\sum_{j=1}^{d} \lambda_j|w_j|$.
+\ans{$(\norm{Xw-y}_\infty)^2 + \half \norm{\Lambda w}_1$}
 }}
 You can use $V$ to denote a diagonal matrix that has the (non-negative) ``weights'' $v_i$ along the diagonal. The value $\lambda$ (the ``regularization parameter'') is a non-negative scalar. You can $\Lambda$ as a diagonal matrix that has the (non-negative) $\lambda_j$ values along the diagonal.
 
@@ -120,8 +123,27 @@ Write finding a minimizer $w$ of the functions below as a system of linear equat
 
 \blu{\enum{
 \item $f(w) = \frac{1}{2}\norm{w-u}^2$ (projection of $u$ onto real space).
+\ans{$f(w) = \half\sum_{j=1}^{d} (w_j - u_j)^2 \\
+\\
+\nabla f(w) = w-u$}
 \item $f(w)= \frac{1}{2}\sum_{i=1}^n v_i (w^Tx_i - y_i)^2 + \lambda w^Tu$ (weighted and tilted least squares).
+\ans{$f(w) = \half v_1(w_1 x_11 + ... + w_d x_1d - y_1)^2 + ... + \half v_n(w_1 x_n1 + ... + w_d x_nd - y_n)^2  + \lambda u_1 + ... + \lambda u_d \\
+\\
+\nabla f(w) = \begin{bmatrix}
+v_1 (w_1 x_11 + ... + w_d x_1d - y_1) (x_11) + ... + v_n (w_1 x_n1 + ... + w_d x_nd - y_n) (x_n1) + \lambda u_1 \\
+... \\
+v_1 (w_1 x_11 + ... + w_d x_1d - y_1) (x_1d) + ... + v_n (w_1 x_n1 + ... + w_d x_nd - y_n) (x_nd) + \lambda u_d \\
+\end{bmatrix} \\\\
+\nabla f(w) = X^TV(Xw-y) + \lambda u$}
 \item $f(w) = \frac{1}{2}\norm{Xw - y}^2 + \frac{\lambda}{2}\norm{w-w^0}^2$ (least squares shrunk towards non-zero $w^0$).
+\ans{$f(w) = \half (w_1 x_11 + ... + w_d x_1d - y_1)^2 + ... + \half (w_1 x_n1 + ... + w_d x_nd - y_n)^2 + \frac{\lambda}{2}(w_1 - w^0_1)^2 + ... + \frac{\lambda}{2}(w_2 - w^0_2)^2\\
+\\
+\nabla f(w) = \begin{bmatrix}
+(w_1 x_11 + ... + w_d x_1d - y_1) (x_11) + ... + (w_1 x_n1 + ... + w_d x_nd - y_n) (x_n1) + \lambda(w_1 - w^0_1) \\
+... \\
+(w_1 x_11 + ... + w_d x_1d - y_1) (x_1d) + ... + (w_1 x_n1 + ... + w_d x_nd - y_n) (x_nd) + \lambda(w_d - w^0_d) \\
+\end{bmatrix} \\\\
+\nabla f(w) = X^T(Xw-y) + \lambda (w-w_0)$}
 }}
 Above we assume that $u$ and $w^0$ are $d$ by $1$ vectors, that $v$ is a $n$ by $1$ vector. You can use $V$ as a diagonal matrix containing the $v_i$ values along the diagonal.
 
