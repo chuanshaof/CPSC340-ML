@@ -369,11 +369,11 @@ An advantage of gradient-based strategies is that they are able to solve problem
 
 \begin{enumerate}
 \item Describe a dataset with $k$ clusters where $k$-means cannot find the true clusters.
-\ans{}
+\ans{A dataset that have true clusters that are non-convex would would not be able to be classified well. This is as clustering uses radius as a distance, thus, it assumes that clusters are circular in fashion, and non-conventionally shaped clusters would not be able to be clustered correctly.}
 \item Why do we need random restarts for $k$-means but not for density-based clustering?
-\ans{}
+\ans{This is to counter the sensitivity of initialization of the model.}
 \item Why is it not a good idea to create an ensemble out of multiple $k$-means runs with random restarts and, for each example, output the mode of the label assignments (voting)?
-\ans{}
+\ans{There might be mismatch in the classifications. For example, in a 2 true-cluster data, a model might identify the left cluster as "1", but another model might identify it as "2". Thus, this mismatch might even be detrimental to the accuracy.}
 \item For each outlier detection method below, list an example method and a problem with identifying outliers using this method:
 \begin{itemize}
 \item Model-based outlier detection.
@@ -386,14 +386,19 @@ An advantage of gradient-based strategies is that they are able to solve problem
 \item Why do we minimize $\frac{1}{2}\sum_{i=1} ^n (wx_i-y_i)^2$ instead of the actual mean squared error $\frac{1}{n}\sum_{i=1}^n (wx_i-y_i)^2$ in (1D) least squares?
 \ans{Both of the functions have the same minimas and produces the same w. The reason that 1/2 is preferred over 1/n is as it would be an easier function to calculate, given that the derivative will multiply the first value by 2.}
 \item Give an example of a feature matrix $X$ for which the least squares problem \emph{cannot} be solved as $w = (X^\top X)^{-1}(X^\top y)$.
-\ans{An example feature matrix would be when $X^T X$ is not invertible.}
+\ans{It would be when $X^T X$ is not invertible. An example feature matrix would be [1 1, 1 1].}
 \item Why do we typically add a column of $1$ values to $X$ when we do linear regression? Should we do this if we're using decision trees?
 \ans{This is to introduce a y-intercept to the graph. This gives the perception of having the same weight for all features, making it a constant y-intercept. Decision tree should not have this column as they split by conditions, thus having the same column of 1 values will not help.}
 \item When should we consider using gradient descent to approximate the solution to the least squares problem instead of exactly solving it with the closed form solution?
+\ans{When the number of features is large. It will help to cut down on the training time needed.}
 \item If a function is convex, what does that say about stationary points of the function? Does convexity imply that a stationary points exists?
+\ans{It implies that the stationary point would be the global minimum. However, convexity does not imply that a stationary point will exist. For instance, in a straight line equation, there is no stationary point.}
 \item For robust regression based on the L1-norm error, why can't we just set the gradient to 0 and solve a linear system? In this setting, why we would want to use a smooth approximation to the absolute value?
+\ans{The L1-norm is non-differentiable, thus attempting to find 0 would not be possible as the minima have a discontinuous point. A smooth approximation allows for the function to be differentiable and solvable.}
 \item What is the problem with having too small of a learning rate in gradient descent?
+\ans{This would cause the model to have too long of a time to train.}
 \item What is the problem with having too large of a learning rate in gradient descent?
+\ans{This might cause the gradient descent to never be able to converge. This is as it would amplify the gradient by too much and cause it to move past the convergent point.}
 \end{enumerate}
 
 
