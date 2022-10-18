@@ -36,8 +36,23 @@ function robustRegression(X,y)
 end
 
 function robustRegressionObj(w,X,y)
-	f = 0
-	g = zeros(size(w))
-	return (f,g)
+	epsilon = 1
+
+	@show(w')
+	@show(size(w))
+	@show(X[1])
+
+	for i in 1:size(X)[1]
+		r_i = abs(w'[1] * X[i] - y[i])
+		@show(r_i)
+
+	end
+
+	# r_i = X*w - y
+
+
+	# f = 0
+	# g = zeros(size(w))
+	# return (f,g)
 end
 

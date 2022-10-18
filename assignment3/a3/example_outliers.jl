@@ -8,7 +8,9 @@ data = load("outliersData.jld")
 
 # Fit a least squares model
 include("leastSquares.jl")
-model = leastSquares(X,y)
+v = [ones(400); fill(0.1, 100)]
+model = weightedLeastSquares(X,y,v)
+# model = leastSquares(X,y)
 
 # Evaluate training error
 yhat = model.predict(X)
@@ -26,4 +28,4 @@ scatter(X,y,legend=false,linestyle=:dot)
 Xhat = minimum(X):.01:maximum(X)
 yhat = model.predict(Xhat)
 plot!(Xhat,yhat,legend=false)
-gui()
+# gui()

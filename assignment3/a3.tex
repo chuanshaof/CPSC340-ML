@@ -222,6 +222,10 @@ y_i = w^Tx_i.
 \]
 \blu{Write a new function, \emph{leastSquaresBias}, that has the same input/model/predict format as the \emph{leastSquares} function, but that adds a \emph{bias} variable $w_0$. Hand in your new function, the updated plot, and the updated training/test error.}
 
+\ans{Updated training error = 3551.346, Updated test error = 3393.869\\
+\\
+\red Recall to add the graph and function here}
+
 Hint: recall that adding a bias $w_0$ is equivalent to adding a column of ones to the matrix $X$. Don't forget that you need to do the same transformation in the \emph{predict} function.
 
 
@@ -243,6 +247,23 @@ Z =
 and fit a least squares model based on it.
 \blu{Hand in the new function, and report the training and test error for $p = 0$ through $p= 10$. Explain the effect of $p$ on the training error and on the test error.}
 
+\ans{Squared train Error of p=1 with least squares: 3551.346\\
+Squared test Error of p=1 with least squares: 3393.869\\
+Squared train Error of p=2 with least squares: 2167.992\\
+Squared test Error of p=2 with least squares: 2480.725\\
+Squared train Error of p=3 with least squares: 252.046\\
+Squared test Error of p=6 with least squares: 246.005\\
+Squared train Error of p=7 with least squares: 247.011\\
+Squared test Error of p=7 with least squares: 242.888\\
+Squared train Error of p=8 with least squares: 241.306\\
+Squared test Error of p=8 with least squares: 245.966\\
+Squared train Error of p=9 with least squares: 235.762\\
+Squared test Error of p=9 with least squares: 259.296\\
+Squared train Error of p=10 with least squares: 235.074\\
+Squared test Error of p=10 with least squares: 256.300\\
+\\
+The training error continuously decreases as the p value decreases. However, the test error decreases and hits a local minimum at p=7. which it then increases from there. This is due to the fact that p will overfit and cause the curve to fit perfectly to the training points, while the test data would still follow the general trend, which is no longer fitting if p continously increase.}
+
 Note: for this question you should assume that you only have one feature ($d=1$). We will discuss polynomial bases with more input features later in the course.
 
 Hints: To keep the code simple and reduce the chance of having errors, you may want to write a new function \emph{polyBasis} that you can use for transforming both the training and testing data.
@@ -256,6 +277,7 @@ A popular alternative to using polynomials is to use Gaussian radial basis funct
 \tilde{z}_i = \mat{\underbrace{\exp\left(-\frac{(\tilde{x}_i - x_1)^2}{2\sigma^2}\right)}_\text{feature 1} & \underbrace{\exp\left(-\frac{(\tilde{x}_i - x_2)^2}{2\sigma^2}\right)}_\text{feature 2} & \cdots & \underbrace{\exp\left(-\frac{(\tilde{x}_i - x_n)^2}{2\sigma^2}\right)}_\text{feature $n$}},
 \]
 where $\sigma^2$ is a hyper-parameter. With $n$ training examples, this generates a set of $n$ features based on a transformation of the distance between the example and each training example. \blu{Hand in a function implementing least squares under this basis, and the plots obtained by $\sigma=10$, $\sigma=1$, and $\sigma=0.1$. How does the value of $\sigma^2$ affect the fundamental trade-off?}
+\ans{}
 
 
 \pagebreak
@@ -280,6 +302,8 @@ In this formulation, the model focuses on making the error small for examples $i
 Write a model function, \emph{weightedLeastSquares(X,y,v)}, that implements this model (note that this can be solved as a linear system).
 Apply this model to the data containing outliers, setting $v_i = 1$ for the first $400$ data points and $v_i = 0.1$ for the last $100$ data points (which are the outliers). \blu{Hand in your function and the updated plot}.
 
+\ans{}
+
 
 \pagebreak
 
@@ -289,7 +313,7 @@ Unfortunately, we typically do not know the identities of the outliers. In situa
 \[
 f(w) = \sum_{i=1}^n h(w^Tx_i  -y_i),
 \]
-where
+wher                                                                             e
 \[
 h(r_i) =
 \begin{cases}
@@ -302,7 +326,32 @@ This is less sensitive to outliers than least squares, although it can no longer
  the gradient $\nabla f$ of this function with respect to $w$. You should show your work but you do not have to express the final result in matrix notation.}
  Hint: you can start by computing the derivative of $h$ with respect to $r_i$ and then get the gradient using the chain rule. You can use sgn$(r_i)$ as a function that returns $1$ if $r_i$ is positive and $-1$ if it is negative.
 
-\pagebreak
+\ans{Since $r_i = (w^T x_i - y_i), \\
+\\
+f(r_i(w)) =
+\begin{cases}
+\sum_{i=1}^n \half r_i^2(r_i) & \text{for $|r_i| \leq \epsilon$}\\
+\sum_{i=1}^n \epsilon(|r_i| - \half \epsilon) (r_i) & \text{otherwise}
+\end{cases} \\
+\\
+f'(w_j) = \sum_{i=1}^n f'(r_i(w_j)) \cdot r_i'(w_j) \\
+\\
+f'(r_i(w_j)) = 
+\begin{cases}
+\frac{3}{2} r_i^2 & \text{for $|r_i| \leq \epsilon$}\\
+\text{sgn}(r_i) 2 \epsilon r_i -  \half \epsilon^2 & \text{otherwise}
+\end{cases}
+\\\\
+r_i'(w_j) = x_{ij}
+\\\\
+f'(w_j) =  \sum_{i=1}^n
+\begin{cases}
+\frac{3}{2} r_i^2 * x_{ij} & \text{for $|r_i| \leq \epsilon$}\\
+(\text{sgn}(r_i) 2 \epsilon r_i -  \half \epsilon^2) * x_{ij} & \text{otherwise}
+\end{cases}$
+\\\\
+For $\nabla f(w)$, simply make it a d x 1 matrix where row j contains $f'(w_j)$.}
+\pagebreak 
 
 \subsection{Robust Regression}
 

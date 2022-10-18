@@ -7,8 +7,11 @@ data = load("outliersData.jld")
 (X,y,Xtest,ytest) = (data["X"],data["y"],data["Xtest"],data["ytest"])
 
 # Fit a least squares model
-include("leastSquaresGradient.jl")
-model = leastSquaresGradient(X,y)
+# include("leastSquaresGradient.jl")
+# model = leastSquaresGradient(X,y)
+
+include("robustRegression.jl")
+model = robustRegression(X,y)
 
 # Evaluate training error
 yhat = model.predict(X)
@@ -26,4 +29,4 @@ scatter(X,y,legend=false,linestyle=:dot)
 Xhat = minimum(X):.01:maximum(X)
 yhat = model.predict(Xhat)
 plot!(Xhat,yhat,legend=false)
-gui()
+# gui()
