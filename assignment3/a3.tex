@@ -313,7 +313,7 @@ Unfortunately, we typically do not know the identities of the outliers. In situa
 \[
 f(w) = \sum_{i=1}^n h(w^Tx_i  -y_i),
 \]
-wher                                                                             e
+where
 \[
 h(r_i) =
 \begin{cases}
@@ -369,17 +369,26 @@ An advantage of gradient-based strategies is that they are able to solve problem
 
 \begin{enumerate}
 \item Describe a dataset with $k$ clusters where $k$-means cannot find the true clusters.
+\ans{}
 \item Why do we need random restarts for $k$-means but not for density-based clustering?
-\item{Why is it not a good idea to create an ensemble out of multiple $k$-means runs with random restarts and, for each example, output the mode of the label assignments (voting)?}
+\ans{}
+\item Why is it not a good idea to create an ensemble out of multiple $k$-means runs with random restarts and, for each example, output the mode of the label assignments (voting)?
+\ans{}
 \item For each outlier detection method below, list an example method and a problem with identifying outliers using this method:
 \begin{itemize}
 \item Model-based outlier detection.
+\ans{An example method would be using z-normalization to identify. A simple way would be to consider outliers with a high absolute z-score to be an outlier. However, an issue with this could be non-uni-modal data, where there might be double peaks. This would skew the mean of the data, causing the extreme ends of each peak to be considered as outliers.}
 \item Graphical-based outlier detection.
+\ans{An example method would be using scatterplot graphs and have a person to determine if the data is an outlier. However, this is only limited to 2 features at a time and would be too time consuming to complete if there are many features.}
 \item Supervised outlier detection.
+\ans{An example method would be to use supervised machine learning to determine. However, this would assume that outliers have already been identified before and the same pattern follows.}
 \end{itemize}
 \item Why do we minimize $\frac{1}{2}\sum_{i=1} ^n (wx_i-y_i)^2$ instead of the actual mean squared error $\frac{1}{n}\sum_{i=1}^n (wx_i-y_i)^2$ in (1D) least squares?
+\ans{Both of the functions have the same minimas and produces the same w. The reason that 1/2 is preferred over 1/n is as it would be an easier function to calculate, given that the derivative will multiply the first value by 2.}
 \item Give an example of a feature matrix $X$ for which the least squares problem \emph{cannot} be solved as $w = (X^\top X)^{-1}(X^\top y)$.
+\ans{An example feature matrix would be when $X^T X$ is not invertible.}
 \item Why do we typically add a column of $1$ values to $X$ when we do linear regression? Should we do this if we're using decision trees?
+\ans{This is to introduce a y-intercept to the graph. This gives the perception of having the same weight for all features, making it a constant y-intercept. Decision tree should not have this column as they split by conditions, thus having the same column of 1 values will not help.}
 \item When should we consider using gradient descent to approximate the solution to the least squares problem instead of exactly solving it with the closed form solution?
 \item If a function is convex, what does that say about stationary points of the function? Does convexity imply that a stationary points exists?
 \item For robust regression based on the L1-norm error, why can't we just set the gradient to 0 and solve a linear system? In this setting, why we would want to use a smooth approximation to the absolute value?

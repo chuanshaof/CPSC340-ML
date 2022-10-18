@@ -37,22 +37,26 @@ end
 
 function robustRegressionObj(w,X,y)
 	epsilon = 1
+	
+	# Unsure what the objective function should be here
+	f = (1/2)sum((X*w - y).^2)
 
-	@show(w')
-	@show(size(w))
-	@show(X[1])
+	g = zeros(size(w))
 
-	for i in 1:size(X)[1]
-		r_i = abs(w'[1] * X[i] - y[i])
-		@show(r_i)
+	for j in 1:size(w)[1]
+		for i in 1:size(X)[1]
+			r_i = w'[1] * X[i] - y[i]
 
+			if abs(r_i) < epsilon
+				g[j] += 3/2 * r_i^2 * X[i][j]
+			elseif r_i < 0
+				g[j] += -2 * epsilon * r_i * X[i][j]
+			else
+				g[j] += 2 * epsilon * r_i * X[i][j]
+			end
+		end
 	end
-
-	# r_i = X*w - y
-
-
-	# f = 0
-	# g = zeros(size(w))
-	# return (f,g)
+	
+	return (f,g)
 end
 
