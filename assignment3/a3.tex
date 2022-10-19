@@ -164,8 +164,8 @@ Recall that convex loss functions are typically easier to minimize than non-conv
 f''(w) = 1 + 2w^3$\\
 As $w > 0$, this would mean that $f''(w) > 0$, making the function convex.}
 \item $f(w) = \max_i w_i$ with $w \in \R^n$ (maximum).
-\ans{Not sure what this means, but it looks like the L inf norm, altho on piazza says its not \\
-"f here is a function that takes in a vector w, so f returns the maximum entry of the vector w."}
+\ans{By differentiating each $w_i$, it would show that each $w_i$ are individually convex. \\
+As such as $f(w)$ is the max of convex functions, that would make $f(w)$ convex too.}
 \item $f(y) = \max(0,1-t\cdot y)$ with $y\in \R$ and $t\in\{-1,+1\}$ (hinge loss).
 \ans{Let $h(y) = 0, g(y) = 1 - y, k(y) = 1 + y$ \\
 As they are all straight line equations, and their second derivative is $\geq 0$, they are all convex functions.\\
@@ -277,7 +277,14 @@ A popular alternative to using polynomials is to use Gaussian radial basis funct
 \tilde{z}_i = \mat{\underbrace{\exp\left(-\frac{(\tilde{x}_i - x_1)^2}{2\sigma^2}\right)}_\text{feature 1} & \underbrace{\exp\left(-\frac{(\tilde{x}_i - x_2)^2}{2\sigma^2}\right)}_\text{feature 2} & \cdots & \underbrace{\exp\left(-\frac{(\tilde{x}_i - x_n)^2}{2\sigma^2}\right)}_\text{feature $n$}},
 \]
 where $\sigma^2$ is a hyper-parameter. With $n$ training examples, this generates a set of $n$ features based on a transformation of the distance between the example and each training example. \blu{Hand in a function implementing least squares under this basis, and the plots obtained by $\sigma=10$, $\sigma=1$, and $\sigma=0.1$. How does the value of $\sigma^2$ affect the fundamental trade-off?}
-\ans{}
+\ans{Squared train Error with gaussianRBF of variance 0.1: 0.797 \\
+Squared test Error with gaussianRBF of sigma 0.1: 973886.891 \\
+Squared train Error with gaussianRBF of sigma 1.0: 41.787 \\
+Squared test Error with gaussianRBF of sigma 1.0: 3426.652 \\ 
+Squared train Error with gaussianRBF of sigma 10.0: 250.502 \\
+Squared test Error with gaussianRBF of sigma 10.0: 257.218 \\
+\\
+As the value of $\sigma$ increases, the train error increases, however, on the other hand, the test error decreases.}
 
 
 \pagebreak

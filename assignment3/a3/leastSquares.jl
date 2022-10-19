@@ -51,12 +51,6 @@ function leastSquaresBasis(x,y,p)
 	return GenericModel(predict)
 end
 
-function gaussianRBF(X, y, variance)
-
-	function predict(Xhat)
-	end
-end
-
 function weightedLeastSquares(X, y, v)
 	# f'(w) = X'VXw - X'Vy
 	
