@@ -333,31 +333,30 @@ This is less sensitive to outliers than least squares, although it can no longer
  the gradient $\nabla f$ of this function with respect to $w$. You should show your work but you do not have to express the final result in matrix notation.}
  Hint: you can start by computing the derivative of $h$ with respect to $r_i$ and then get the gradient using the chain rule. You can use sgn$(r_i)$ as a function that returns $1$ if $r_i$ is positive and $-1$ if it is negative.
 
-\ans{Since $r_i = (w^T x_i - y_i), \\
-\\
-f(r_i(w)) =
+\ans{$h'(r_i) = 
 \begin{cases}
-\sum_{i=1}^n \half r_i^2(r_i) & \text{for $|r_i| \leq \epsilon$}\\
-\sum_{i=1}^n \epsilon(|r_i| - \half \epsilon) (r_i) & \text{otherwise}
+r_i & \text{for $|r_i| \leq \epsilon$}\\
+sgn(r_i) \epsilon & \text{otherwise}
 \end{cases} \\
 \\
-f'(w_j) = \sum_{i=1}^n f'(r_i(w_j)) \cdot r_i'(w_j) \\
+\nabla r_i(w) = x_i \\
 \\
-f'(r_i(w_j)) = 
+h'(w) = \sum_{i=1}^n h'(r_i(w)) * \nabla r_i(w) \\
+\\
+\nabla h(w) = \sum_{i=1}^n
 \begin{cases}
-\frac{3}{2} r_i^2 & \text{for $|r_i| \leq \epsilon$}\\
-\text{sgn}(r_i) 2 \epsilon r_i -  \half \epsilon^2 & \text{otherwise}
-\end{cases}
-\\\\
-r_i'(w_j) = x_{ij}
-\\\\
-f'(w_j) =  \sum_{i=1}^n
+r_i * x_i  & \text{for $|r_i| \leq \epsilon$}\\
+sgn(r_i) \epsilon *x_i & \text{otherwise}
+\end{cases} \\
+\\ 
+\nabla f(w) = f'(h(w)) * \nabla h(w) \\
+\\
+\nabla f(w) = \sum_{i=1}^n
 \begin{cases}
-\frac{3}{2} r_i^2 * x_{ij} & \text{for $|r_i| \leq \epsilon$}\\
-(\text{sgn}(r_i) 2 \epsilon r_i -  \half \epsilon^2) * x_{ij} & \text{otherwise}
-\end{cases}$
-\\\\
-For $\nabla f(w)$, simply make it a d x 1 matrix where row j contains $f'(w_j)$.}
+r_i * x_i  & \text{for $|r_i| \leq \epsilon$}\\
+sgn(r_i) \epsilon *x_i & \text{otherwise}
+\end{cases} \\
+$}
 \pagebreak 
 
 \subsection{Robust Regression}
