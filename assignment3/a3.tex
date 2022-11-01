@@ -160,8 +160,8 @@ Recall that convex loss functions are typically easier to minimize than non-conv
 
 \enum{
 \item $f(w) = \half w^2 + w^{-1}$ with $w > 0$.
-\ans{$f'(w) = w - w^-2\\
-f''(w) = 1 + 2w^3$\\
+\ans{$f'(w) = w - w^{-2}\\
+f''(w) = 1 + 2w^{-3}$\\
 As $w > 0$, this would mean that $f''(w) > 0$, making the function convex.}
 \item $f(w) = \max_i w_i$ with $w \in \R^n$ (maximum).
 \ans{By differentiating each $w_i$, it would show that each $w_i$ are individually convex. \\
@@ -262,7 +262,7 @@ Squared test Error of p=9 with least squares: 259.296\\
 Squared train Error of p=10 with least squares: 235.074\\
 Squared test Error of p=10 with least squares: 256.300\\
 \\
-The training error continuously decreases as the p value decreases. However, the test error decreases and hits a local minimum at p=7. which it then increases from there. This is due to the fact that p will overfit and cause the curve to fit perfectly to the training points, while the test data would still follow the general trend, which is no longer fitting if p continously increase.}
+The training error continuously decreases as the p value increases. However, the test error decreases and hits a local minimum at p=7. which it then increases from there. This is due to the fact that p will overfit and cause the curve to fit perfectly to the training points, while the test data would still follow the general trend, which is no longer fitting if p continously increase.}
 
 Note: for this question you should assume that you only have one feature ($d=1$). We will discuss polynomial bases with more input features later in the course.
 

@@ -32,7 +32,7 @@ function leastSquaresGradient(X,y)
 	predict(Xhat) = Xhat*w
 
 	# Return model
-	return GenericModel(predict)
+	return GenericModel(predict)	
 end
 
 function leastSquaresObj(w,X,y)

@@ -40,7 +40,7 @@ function robustRegressionObj(w,X,y)
 	
 	# Unsure what the objective function should be here
 	f = 0
-
+	
 	g = zeros(size(w))
 
 	for j in 1:size(w)[1]

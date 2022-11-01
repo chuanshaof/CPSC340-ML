@@ -91,10 +91,10 @@ for sigma in sigmas
     testError = mean((yhat - ytest).^2)
     @printf("Squared test Error with gaussianRBF of sigma %.1f: %.3f\n", sigma, testError)
 
-    # # Plot model
-    # using Plots
-    # scatter(X,y,legend=false,linestyle=:dot)
-    # Xhat = minimum(X):.1:maximum(X)
-    # yhat = model.predict(Xhat)
-    # plot!(Xhat,yhat,legend=false)
+    # Plot model
+    using Plots
+    scatter(X,y,legend=false,linestyle=:dot)
+    Xhat = minimum(X):.1:maximum(X)
+    yhat = model.predict(Xhat)
+    plot!(Xhat,yhat,legend=false)
 end
