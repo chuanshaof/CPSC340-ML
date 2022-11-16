@@ -66,6 +66,19 @@ A strange behaviour appears: if you run the script more than once it might choos
 
 Hint: to construct an identity matrix in Julia, use the linear algebra package (\emph{using LinearAlgebra}) and then use $I$ to make an identity matrix of the appropriate size (Julia figures out the dimensions for you).
 
+\ans{With best sigma of 1.000, testError = 71.17}
+\begin{lstlisting}
+using LinearAlgebra
+function leastSquaresRBF(X,y,sigma)
+	(n,d) = size(X)
+	lambda = 10^-12
+	Z = rbf(X,X,sigma)
+	w = (Z'*Z + lambda*I)\(Z'*y)
+	predict(Xhat) = rbf(Xhat,X,sigma)*w
+	return LinearModel(predict,w)
+end
+\end{lstlisting}
+
 \pagebreak
 
 
@@ -73,6 +86,51 @@ Hint: to construct an identity matrix in Julia, use the linear algebra package (
 
 Even with regularization, the randomization of the training/validation sets has an effect on the value of $\sigma$ that we choose (on some runs it still chooses a large $\sigma$ value).
 This variability would be reduced if we had a larger ``train" and ``validation" set, and one way to simulate this is with \emph{cross-validation}. \blu{\red{Modify the training/validation procedure to use 10-fold cross-validation to select $\sigma$ (with $\lambda$ fixed at $10^{-12}$). Hand in your code and report how this affects the selection of $\sigma$ compared to the original code.}}
+
+\ans{The sigma selected is 1. The selection of this sigma is more stable and relies less on the randomization of the dataset.}
+\begin{lstlisting}
+shuffledOrder = shuffle(1:n)
+
+include("leastSquares.jl")
+minErr = Inf
+bestSigma = []
+for sigma in 2.0.^(-15:15)
+	# Cross validation for 10 folds
+	meanError = 0
+	folds = 10
+	foldSize = Int(n/folds)
+	foldInd = 1
+
+	for i in 1:10
+		validNdx = shuffledOrder[foldInd:foldInd+foldSize-1]
+		trainNdx = setdiff(shuffledOrder,validNdx)
+	
+		Xtrain = X[trainNdx,:]
+		ytrain = y[trainNdx]
+		Xvalid = X[validNdx,:]
+		yvalid = y[validNdx]
+	
+		foldInd += foldSize
+
+		# Train on the training set
+		model_sigma = leastSquaresRBF(Xtrain,ytrain,sigma)
+
+		# Compute the error on the validation set
+		yhat_sigma = model_sigma.predict(Xvalid)
+		meanError += sum((yhat_sigma - yvalid).^2)/(n/2)
+	end
+
+	meanError /= 10
+
+	@printf("With sigma = %.3f, validError = %.2f\n",sigma,meanError)
+
+	# Keep track of the lowest validation error
+	if meanError < minErr
+		global minErr = meanError
+		global bestSigma = sigma
+	end
+end
+\end{lstlisting}
 
 
 \pagebreak
@@ -83,9 +141,13 @@ When dealing with larger datasets, an important issue is the dependence of the c
 \blu{
 \enum{
 \item What is the cost in big-O notation of training a linear regression model with Gaussian RBFs on $n$ training examples with $d$ features (for fixed $\sigma$ and $\lambda$)?
+\ans{$O(n^3$}
 \item What is the cost of classifying $t$ new examples with this model?
+\ans{$O(t^3)$}
 \item When is it cheaper to train using Gaussian RBFs than using the original linear basis?
+\ans{It is cheaper to train a Gaussian RBF when the number of training examples is lower than the number of features.}
 \item When is it cheaper to predict using Gaussian RBFs than using the original linear basis?
+\ans{It is cheaper to train a Gaussian RBF when the number of test examples is lower than the number of features.}
 }}
 
 \pagebreak
@@ -107,6 +169,20 @@ Least squares does ok as a binary classifier on this dataset, but it uses all th
 \subsection{Logistic Regression}
 
 Instead of least squares, modify the script to use logistic regression. You can use the \emph{logReg.jl} file, which implements the training and prediction function for a logistic regresion classifier (using a  version of the \emph{findMin} function that does derivative checking for you and that uses more-clever choices of step-sizes). When you switch to using logistic regression, \blu{report how the following quantities change: the training error, validation error, and number of features}.
+\ans{\\
+For least squares model: \\
+numberOfNonZero = 101 \\ 
+trainError = 0.038 \\ 
+validError = 0.106 \\
+\\
+For logistic regression model: \\
+numberOfNonZero = 101 \\
+trainError = 0.0 \\ 
+validError = 0.082 \\
+\\
+In the values, both the number of features do not change. While the training error for logistics regression decreases to 0, and the validation error also decreases slightly. This might prove to be a better model as such.
+}
+
 
 \subsection{L2-Regularization}
 
@@ -119,6 +195,26 @@ your new function \emph{logRegL2} should compute $w$ by minimizing
 f(w) = \sum_{i=1}^n \left[\log(1+\exp(-y_iw^Tx_i))\right] + \frac{\lambda}{2}\norm{w}^2.
 \]
 \blu{Hand in the objective function that your updated code minimizes, and using $\lambda=1.0$ report how the following quantities change: the training error, the validation error, the number of features used, and the number of gradient descent iterations.}
+
+\ans{numberOfNonZero = 101 \\
+trainError = 0.002 \\ 
+validError = 0.074 \\
+Iterations = 30 \\
+\\
+The number of iterations have decreased while the number of non-zeroes stayed the same. The training error is slightly higher, but of an insignificant amount, while the validation error has decreased slightly.
+}
+
+\begin{lstlisting}
+function logisticObjL2(w,X,y,lambda=1)
+	yXw = y.*(X*w)
+	f = sum(log.(1 .+ exp.(-yXw))) + lambda/2*sum(w.^2)
+	g = -X'*(y./(1 .+ exp.(yXw))) + lambda*w
+	return (f,g)
+end
+\end{lstlisting}
+
+
+
 
 \pagebreak
 
@@ -137,6 +233,38 @@ f(w) = g(w) + \lambda \norm{w}_1.
 \]
  This function has a similar interface to \emph{findMin}, except that you (a) only provide the code to compute the function/gradient of the differentiable part $g$ and (b) need to provide the value $\lambda$.
 
+\ans{numberOfNonZero = 78\\
+trainError = 0.008\\
+validError = 0.046\\
+In this case, the number of features used actually decreased, meaning that more features are now not as important. The training error has increased slightly and the validation error has continuously decreased.
+}
+
+\begin{lstlisting}
+function logRegL1(X,y,lambda=1)
+	(n,d) = size(X)
+	
+	w = zeros(d,1)
+	funObj(w) = logisticObjL1(w,X,y,lambda)
+
+	# Solve least squares problem
+	w = findMinL1(funObj,w,lambda)
+
+	# Make linear prediction function
+	predict(Xhat) = sign.(Xhat*w)
+
+	# Return model
+	return LinearModel(predict,w)
+end
+
+function logisticObjL1(w,X,y,lambda=1)
+	yXw = y.*(X*w)
+
+	f = sum(log.(1 .+ exp.(-yXw))) + lambda*sum(abs.(w))
+	g = -X'*(y./(1 .+ exp.(yXw))) + lambda*sign.(w)
+	return (f,g)
+end
+\end{lstlisting}
+
 \pagebreak
 
 \subsection{L0-Regularization}
@@ -146,9 +274,26 @@ The function \emph{logRegL0} contains part of the code needed to implement the \
 f(w) =  \sum_{i=1}^n \left[\log(1+\exp(-y_iw^Tx_i))\right] + \lambda\norm{w}_0.
 \]
 The `for' loop in this function is missing the part where we fit the model using the subset \emph{Sj}, then compute the score and updates the \emph{minScore/minS}. Modify the `for' loop in this code so that it fits the model using only the features \emph{Sj}, computes the score above using these features, and updates the \emph{minScore/minS} variables (if you want to turn off the diagonistics generated by \emph{findMin}, you can use \emph{verbose = false}).\footnote{Note that Julia doesn't like when you re-define functions, but if you change the variable \emph{Xs} it will actually change the behaviour of the \emph{funObj} that is already defined.}
-\blu{Hand in your updated code. Using this new code, set $\lambda = 1$ and report: the training error, the validation error, and the number of features used.}
+\blu{Hand in your updated code. Using this new code, set $\lambda = 1$ and report: the training error, the validation error, and the number of features used.}]
 
 Note that the code differs a bit from what we discussed in class, since we assume that the first feature is the bias variable and assume that the bias variable is always included. Also, note that for this particular case using the L0-norm with $\lambda=1$ is equivalent to what is known as the Akaike information criterion (BIC) for variable selection.
+
+\ans{numberOfNonZero = 24\\
+trainError = 0.0\\
+validError = 0.018\\}
+
+\begin{lstlisting}
+# PUT YOUR CODE HERE
+w = zeros(length(Sj),1)
+w = findMin(funObj,w,verbose=false)
+(f,~) = funObj(w)
+score = f + lambda*length(Sj)
+if score < minScore
+	minScore = score
+	minS = Sj
+end
+\end{lstlisting}
+
 
 \pagebreak
 
@@ -156,6 +301,9 @@ Note that the code differs a bit from what we discussed in class, since we assum
 
 For this problem, the relevant features are the bias variable and the featurs with prime numbers. Given this, \blu{explain how each of the 3 regularizers (L2-regularization, L1-regularization, and L0-regularization) performed in terms of false positives for feature selection (a false positive would be when a feature is selected but it is not relevant). And then explain how each method did in terms of false negatives..}
 
+\ans{For the number of false positives, L2 likely has the most, followed by L1 and then L0. This is as for L2, the number of features chosen is high, and its training error is low while validation error is higher. This proves that the features chosen fits the training dataset more, and thus is liekly for more false positives. The same can be said for L1 regularization compared to L0. \\
+\\
+For the number of false negatives, it would be harder to determine, however, it is likely that L0 has more false negatives as its number of features chosen is signficantly lower. }
 \pagebreak
 
 
@@ -186,7 +334,12 @@ W =
 \blu{
 \begin{enumerate}
 \item What is the meaning of the rows $w_i$ in the matrix $W$?
+\ans{The row $w_i$ represents the weight of the logistic regression for the class label of i.}
 \item Under this model, what class label would we assign to the test example? (show your work)
+\ans{$P(y = 1 | x) = 1.62 + 3.47*0.84 = 4.5348 \\
+P(y = 2 | x) = -3.83 + 0.67*0.84 + 4.9*0.64 = -0.1312 \\
+P(y = 3 | x) = 2.22 + -4.13 * 0.84 + 3.37 * 0.64 = 0.9076$\\
+x has the highest probability to be in class 1, and should be classified as class 1.}
 \end{enumerate}}
 
 
@@ -226,7 +379,9 @@ Assuming that we have
 }
 \blu{\enum{
 \item In big-$\mathcal{O}$ notation, what is the cost of training the softmax classifier?
+\ans{}
 \item In big-$\mathcal{O}$ notation, what is the cost of classifying the test examples?
+\ans{}
 }}
 
 \pagebreak
@@ -235,13 +390,24 @@ Assuming that we have
 
 \enum{
 \item If we fit a linear regression model and then remove all features whose associated weight is small, why is this an ineffective way of performing feature selection?
+\ans{This may be due to the magnitude or weight of the features. For instance, if one was in the units of kilometers, while another is in the units of grams, it would not be fair to remove the smaller weight as kilometers is in a bigger unit.}
 \item Given $3$ features $\{f_1, f_2, f_3\}$, provide an argument that illustrates why the forward selection algorithm is not guaranteed to find an optimal subset of features.
+\ans{In the case where there may be some correlation between 2 features. For instance, if there is taco and tuesday, if forward selection selects "tuesday" before "taco", it will consider that "tuesday" is the determining feature for stomachache, while in reality, taco is the determining cause.}
 \item What is a setting where you would use the L1-loss, and what is a setting where you would use L1-regularization?
 \item Among L0-regularization, L1-regularization, and L2-regularization: which yield convex objectives? Which yield unique solutions? Which yield sparse solutions?
+\ans{The L1-regularization and L2-regularization both yield convex objectives. This is as they both use norms, which are convex in nature. L0 would not produce the same convexity as it considers the number of non-zero feature weights. \\
+The L2-regularization will yield unique solutions, while L0 and L1 may not. \\
+L0 and L1 regularization both yield sparse solutions, while the L2 may not.
+}
 \item What is the effect of $\lambda$ in L1-regularization on the sparsity level of the solution? What is the effect of $\lambda$ on the two parts of the fundamental trade-off?
+\ans{As $\lambda$ increase for L1, the sparsity level of the solution increases. As such, training error tends to increase while the test error would decrease.}
 \item Suppose you have a feature selection method that tends not generate false positives but has many false negatives (it misses relevant variables). Describe an ensemble method for feature selection that could improve the performance of this method.
+\ans{}
 \item How does the hyper-parameter $\sigma$ affect the shape of the Gaussian RBFs bumps? How does it affect the fundamental tradeoff?
+\ans{The hyper-parameter $\sigma$ changes the bumps of the Gaussian RBF. As $\sigma$ increases, the bumps width increases. \\
+As $\sigma$ increases, the training error goes up, but the validation error goes down.}
 \item What is the main problem with using least squares to fit a linear model for binary classification?
+\ans{For a binary classification, fitting a linear model may cause for the linear model to average out for the lowest squared error. For instance in the case of number of "vicodin" appearances, for the mail to be spam, the number of times can be infinitely many, while for not-spam, it is limited. Thus the model does not fit accurately due to averaging.}
 \item Suppose a binary classification dataset has 3 features. If this dataset is ``linearly separable'', what does this precisely mean in three-dimensional space?
 \item Why do we not minimize $\max(0, -y_i w^\top x_i)$ when we fit a binary linear classifier, even though it’s a convex approximation to the 0-1 loss?
 \item For a linearly-separable binary classification problem, how does an SVM classifier differ from a classifier found using the perceptron algorithm?

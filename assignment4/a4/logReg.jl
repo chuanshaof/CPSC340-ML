@@ -29,8 +29,55 @@ function logisticObj(w,X,y)
 	return (f,g)
 end
 
+function logRegL2(X,y,lambda)
+	(n,d) = size(X)
+	
+	w = zeros(d,1)
+	funObj(w) = logisticObjL2(w,X,y,lambda)
+
+	# Solve least squares problem
+	w = findMin(funObj,w,derivativeCheck=true)
+
+	# Make linear prediction function
+	predict(Xhat) = sign.(Xhat*w)
+
+	# Return model
+	return LinearModel(predict,w)
+end
+
+function logisticObjL2(w,X,y,lambda=1)
+	yXw = y.*(X*w)
+	f = sum(log.(1 .+ exp.(-yXw))) + lambda/2*sum(w.^2)
+	g = -X'*(y./(1 .+ exp.(yXw))) + lambda*w
+	return (f,g)
+end
+
+function logRegL1(X,y,lambda=1)
+	(n,d) = size(X)
+	
+	w = zeros(d,1)
+	funObj(w) = logisticObjL1(w,X,y,lambda)
+
+	# Solve least squares problem
+	w = findMinL1(funObj,w,lambda)
+
+	# Make linear prediction function
+	predict(Xhat) = sign.(Xhat*w)
+
+	# Return model
+	return LinearModel(predict,w)
+end
+
+function logisticObjL1(w,X,y,lambda=1)
+	yXw = y.*(X*w)
+
+	f = sum(log.(1 .+ exp.(-yXw))) + lambda*sum(abs.(w))
+	g = -X'*(y./(1 .+ exp.(yXw))) + lambda*sign.(w)
+	return (f,g)
+end
+
 # Variant where we use forward selection for feature selection
-function logRegL0(X,y,lambda)
+function logRegL0(X,y,lambda=1)
 	(n,d) = size(X)
 
 	# Define an objective that will operate on a subset of the data called Xs
@@ -69,6 +116,14 @@ function logRegL0(X,y,lambda)
 			Xs = X[:,Sj]
 
 			# PUT YOUR CODE HERE
+			w = zeros(length(Sj),1)
+			w = findMin(funObj,w,verbose=false)
+			(f,~) = funObj(w)
+			score = f + lambda*length(Sj)
+			if score < minScore
+				minScore = score
+				minS = Sj
+			end
 		end
 		S = minS
 	end
@@ -90,6 +145,7 @@ end
 # Multi-class one-vs-all version (assumes y_i in {1,2,...,k})
 function logRegOnevsAll(X,y)
 	(n,d) = size(X)
+
 	k = maximum(y)
 
 	# Each row of 'w' will be a logistic regression classifier

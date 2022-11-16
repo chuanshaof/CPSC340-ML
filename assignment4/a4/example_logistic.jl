@@ -17,8 +17,12 @@ Xtest = standardizeCols(Xtest,mu=mu,sigma=sigma)
 Xtest = [ones(t,1) Xtest]
 
 # Fit logistic regression model
-include("leastSquares.jl")
-model = binaryLeastSquares(X,y)
+# include("leastSquares.jl")
+# model = binaryLeastSquares(X,y)
+
+# Fit logistic regression model
+include("logReg.jl")
+model = logRegL0(X,y, 1)
 
 # Count number of non-zeroes in model
 numberOfNonZero = sum(model.w .!= 0)

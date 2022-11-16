@@ -62,13 +62,15 @@ function binaryLeastSquares(X,y)
 	return LinearModel(predict,w)
 end
 
-
+using LinearAlgebra
 function leastSquaresRBF(X,y,sigma)
 	(n,d) = size(X)
 
+	lambda = 10^-12
+
 	Z = rbf(X,X,sigma)
 
-	w = (Z'*Z)\(Z'*y)
+	w = (Z'*Z + lambda*I)\(Z'*y)
 
 	predict(Xhat) = rbf(Xhat,X,sigma)*w
 

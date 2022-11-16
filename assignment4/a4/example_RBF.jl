@@ -8,15 +8,7 @@ data = load("basisData.jld")
 
 # Data is sorted, so *randomly* split into train and validation:
 n = size(X,1)
-perm = randperm(n)
-validStart = Int64(n/2+1) # Start of validation indices
-validEnd = Int64(n) # End of validation incides
-validNdx = perm[validStart:validEnd] # Indices of validation examples
-trainNdx = perm[setdiff(1:n,validStart:validEnd)] # Indices of training examples
-Xtrain = X[trainNdx,:]
-ytrain = y[trainNdx]
-Xvalid = X[validNdx,:]
-yvalid = y[validNdx]
+shuffledOrder = shuffle(1:n)
 
 # Find best value of RBF variance parameter,
 #	training on the train set and validating on the test set
@@ -24,21 +16,40 @@ include("leastSquares.jl")
 minErr = Inf
 bestSigma = []
 for sigma in 2.0.^(-15:15)
+	# Cross validation for 10 folds
+	meanError = 0
+	folds = 10
+	foldSize = Int(n/folds)
+	foldInd = 1
 
-	# Train on the training set
-	model_sigma = leastSquaresRBF(Xtrain,ytrain,sigma)
+	for i in 1:10
+		validNdx = shuffledOrder[foldInd:foldInd+foldSize-1]
+		trainNdx = setdiff(shuffledOrder,validNdx)
+	
+		Xtrain = X[trainNdx,:]
+		ytrain = y[trainNdx]
+		Xvalid = X[validNdx,:]
+		yvalid = y[validNdx]
+	
+		foldInd += foldSize
 
-	# Compute the error on the validation set
-	yhat_sigma = model_sigma.predict(Xvalid)
-	validError = sum((yhat_sigma - yvalid).^2)/(n/2)
-	@printf("With sigma = %.3f, validError = %.2f\n",sigma,validError)
+		# Train on the training set
+		model_sigma = leastSquaresRBF(Xtrain,ytrain,sigma)
 
-	# Keep track of the lowest validation error
-	if validError < minErr
-		global minErr = validError
-		global bestSigma = sigma
+		# Compute the error on the validation set
+		yhat_sigma = model_sigma.predict(Xvalid)
+		meanError += sum((yhat_sigma - yvalid).^2)/(n/2)
 	end
 
+	meanError /= 10
+
+	@printf("With sigma = %.3f, validError = %.2f\n",sigma,meanError)x	
+
+	# Keep track of the lowest validation error
+	if meanError < minErr
+		global minErr = meanError
+		global bestSigma = sigma
+	end
 end
 
 # Now fit the model based on the full dataset
@@ -58,3 +69,60 @@ Xhat = minimum(X):.1:maximum(X)
 Xhat = reshape(Xhat,length(Xhat),1) # Make into an n by 1 matrix
 yhat = model.predict(Xhat)
 plot!(Xhat,yhat,legend=false)
+
+
+
+
+
+
+
+# validStart = Int64(n/2+1) # Start of validation indices
+# validEnd = Int64(n) # End of validation incides
+# validNdx = perm[validStart:validEnd] # Indices of validation examples
+# trainNdx = perm[setdiff(1:n,validStart:validEnd)] # Indices of training examples
+# Xtrain = X[trainNdx,:]
+# ytrain = y[trainNdx]
+# Xvalid = X[validNdx,:]
+# yvalid = y[validNdx]
+
+# # Find best value of RBF variance parameter,
+# #	training on the train set and validating on the test set
+# include("leastSquares.jl")
+# minErr = Inf
+# bestSigma = []
+# for sigma in 2.0.^(-15:15)
+# 	# Train on the training set
+# 	model_sigma = leastSquaresRBF(Xtrain,ytrain,sigma)
+
+# 	# Compute the error on the validation set
+# 	yhat_sigma = model_sigma.predict(Xvalid)
+# 	validError = sum((yhat_sigma - yvalid).^2)/(n/2)
+# 	@printf("With sigma = %.3f, validError = %.2f\n",sigma,validError)
+
+# 	# Keep track of the lowest validation error
+# 	if validError < minErr
+# 		global minErr = validError
+# 		global bestSigma = sigma
+# 	end
+# end
+
+# # Now fit the model based on the full dataset
+# model = leastSquaresRBF(X,y,bestSigma)
+
+# # model = leastSquaresRBF(X,y,1)
+# # bestSigma = 1
+
+# # Report the error on the test set
+# t = size(Xtest,1)
+# yhat = model.predict(Xtest)
+# testError = sum((yhat - ytest).^2)/t
+# @printf("With best sigma of %.3f, testError = %.2f\n",bestSigma,testError)
+
+# # Plot model
+# using Plots
+# scatter(X,y,legend=false,linestyle=:dot)
+# scatter!(Xtest,ytest,legend=false,linestyle=:dot)
+# Xhat = minimum(X):.1:maximum(X)
+# Xhat = reshape(Xhat,length(Xhat),1) # Make into an n by 1 matrix
+# yhat = model.predict(Xhat)
+# plot!(Xhat,yhat,legend=false)
