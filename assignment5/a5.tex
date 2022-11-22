@@ -405,9 +405,13 @@ Note: you can compute the Frobenius norm of a matrix using the function \emph{no
 
 \enum{
 \item What is the difference between multi-label and multi-class classification?
+\ans{A multi-class classification assigns one and only one label to each example. Whereas, a multi-label classification assigns a set of target labels}
 \item We discussed ``global'' vs. ``local'' features for e-mail classification. What is an advantage of using global features, and what is advantage of using local features?
+\ans{By using global features, the model is able to predict for new users. While using local features, it is able to fit to individual user preferences, that might be specific.}
 \item Describe the kernel trick in L2-regularized least squares in one sentence.
+\ans{The L2-regularized kernel trick removes the need to compute Z, a n x n matrix, which is costly to compute and store, making the model easier to train and predict.}
 \item What is the key advantage of stochastic gradient methods over gradient descent methods?
+\ans{The cost of computing SGD is independent of n, which means that it is scalable to a large training dataset.}
 \item Which of the following step-size sequences lead to convergence of stochastic gradient to a stationary point?
 \enum{
 \item $\alpha^t = 1/t^2$.
@@ -417,13 +421,21 @@ Note: you can compute the Frobenius norm of a matrix using the function \emph{no
 \item $\alpha^t = 1/\sqrt{t}$.
 \item $\alpha^t = 1$.
 }
+\ans{b,c,d,e}
 \item{Given discrete data $D$ and parameters $w$, is the expression $p(D|w)$ a probability mass function, a likelihood function, or both? Briefly justify your answer.}
+\ans{The expression is both a probability mass function and a likelihood function. As the data is discrete, it can be splits and be made into a PMF. While a likelihood is also equivalent to that.}
 \item{Why is it often more convenient to minimize the negative log-likelihood than to maximize the likelihood?}
+\ans{This is as the log function allows the likelihood to be dissected and derived into a convex function, and make the equation easier to optimize.}
 \item How does the impact of the prior in MAP estimation change as we add more data?
+\ans{As we add more data, the impact of prior decreases.}
 \item What is the difference between a generative model and a discriminative model?
+\ans{A generative model models the training data, while a discriminative one does not.}
 \item With PCA, is it possible for the loss to increase if $k$ is increased? Briefly justify your answer.
+\ans{No. When k is increased, the dimensions increase, allowing for the clusters to be split in a better manner.}
 \item Why doesn't it make sense to do PCA with $k > d$?
+\ans{This is as it does not make sense to have more dimension of w than dimesions of features. When there are more dimension of w, it becomes redundant as X will never exist in the additional dimensions.}
 \item In terms of the matrices associated with PCA ($X$, $W$, $Z$, $\hat{X}$), where would an ``eigenface'' be stored?
+ans{}
 }
 
 
