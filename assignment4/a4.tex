@@ -141,9 +141,9 @@ When dealing with larger datasets, an important issue is the dependence of the c
 \blu{
 \enum{
 \item What is the cost in big-O notation of training a linear regression model with Gaussian RBFs on $n$ training examples with $d$ features (for fixed $\sigma$ and $\lambda$)?
-\ans{$O(n^3$}
+\ans{$O(n^3)$}
 \item What is the cost of classifying $t$ new examples with this model?
-\ans{$O(t^3)$}
+\ans{$O(tn)$}
 \item When is it cheaper to train using Gaussian RBFs than using the original linear basis?
 \ans{It is cheaper to train a Gaussian RBF when the number of training examples is lower than the number of features.}
 \item When is it cheaper to predict using Gaussian RBFs than using the original linear basis?
@@ -356,7 +356,17 @@ f(W) = \sum_{i=1}^n \left[-w_{y_i}^Tx_i + \log\left(\sum_{c' = 1}^k \exp(w_{c'}^
 
 Hint: for the gradient you can use $x_{ij}$ to refer to element $j$ of example $i$. For the first term you will need to separately think about the cases where $c=y_i$ and the cases where $c\neq y_i$. You may find it helpful to use an `indicator' function, $I(y_i = c)$, which is $1$ when $y_i = c$ and is $0$ otherwise. Note that you can use the definition of the softmax probability to simplify the second term of the derivative.
 
-
+\ans{For the first half, \\
+$g(W) = \sum_{i=1}^n (-w_{y_i}^Tx_i) = -w_{y_11} * x_{11} - w_{y_12} * x_{12} - ... - w_{y_nd} * x_{nd} \\
+\\
+\frac{\partial g}{\partial W_{jc}} =  \sum_{i=1}^n  (I(y_i = c) * w_{y_ij} * x_{ij})$ \\
+\\
+For the second half, we can use the softmax function that gives \\
+$h(W) = \exp{Z_y} / \sum_{c'=1}^k (\exp(Z_c')) \\
+\frac{\partial h}{\partial W_{jc}} = \exp{Z_c} / \sum_{c'=1}^k (\exp(Z_c') * xij)$ \\
+\\
+To complete this, simply combine g(W) and h(W).
+}
 \pagebreak
 
 \subsection{Softmax Classifier}
@@ -379,9 +389,9 @@ Assuming that we have
 }
 \blu{\enum{
 \item In big-$\mathcal{O}$ notation, what is the cost of training the softmax classifier?
-\ans{}
+\ans{O(ndkT)}
 \item In big-$\mathcal{O}$ notation, what is the cost of classifying the test examples?
-\ans{}
+\ans{O(tdkT)}
 }}
 
 \pagebreak
@@ -394,6 +404,9 @@ Assuming that we have
 \item Given $3$ features $\{f_1, f_2, f_3\}$, provide an argument that illustrates why the forward selection algorithm is not guaranteed to find an optimal subset of features.
 \ans{In the case where there may be some correlation between 2 features. For instance, if there is taco and tuesday, if forward selection selects "tuesday" before "taco", it will consider that "tuesday" is the determining feature for stomachache, while in reality, taco is the determining cause.}
 \item What is a setting where you would use the L1-loss, and what is a setting where you would use L1-regularization?
+\ans{The L1-loss reduces the absolute sum error, while the L1-regularization penalizes the total weight of the functions. \\
+In the case of L1-loss, a setting would be when there are distant outliers that should not play a big role determining the error. \\
+While the L1-regularization might be used for the case where there are many irrelevant features that should be removed.}
 \item Among L0-regularization, L1-regularization, and L2-regularization: which yield convex objectives? Which yield unique solutions? Which yield sparse solutions?
 \ans{The L1-regularization and L2-regularization both yield convex objectives. This is as they both use norms, which are convex in nature. L0 would not produce the same convexity as it considers the number of non-zero feature weights. \\
 The L2-regularization will yield unique solutions, while L0 and L1 may not. \\
@@ -402,18 +415,24 @@ L0 and L1 regularization both yield sparse solutions, while the L2 may not.
 \item What is the effect of $\lambda$ in L1-regularization on the sparsity level of the solution? What is the effect of $\lambda$ on the two parts of the fundamental trade-off?
 \ans{As $\lambda$ increase for L1, the sparsity level of the solution increases. As such, training error tends to increase while the test error would decrease.}
 \item Suppose you have a feature selection method that tends not generate false positives but has many false negatives (it misses relevant variables). Describe an ensemble method for feature selection that could improve the performance of this method.
-\ans{}
+\ans{There could be an ensemble method that takes in all the features that have been chosen by the different seletion methods. This will select and reduce the number of false negatives.}
 \item How does the hyper-parameter $\sigma$ affect the shape of the Gaussian RBFs bumps? How does it affect the fundamental tradeoff?
 \ans{The hyper-parameter $\sigma$ changes the bumps of the Gaussian RBF. As $\sigma$ increases, the bumps width increases. \\
 As $\sigma$ increases, the training error goes up, but the validation error goes down.}
 \item What is the main problem with using least squares to fit a linear model for binary classification?
 \ans{For a binary classification, fitting a linear model may cause for the linear model to average out for the lowest squared error. For instance in the case of number of "vicodin" appearances, for the mail to be spam, the number of times can be infinitely many, while for not-spam, it is limited. Thus the model does not fit accurately due to averaging.}
 \item Suppose a binary classification dataset has 3 features. If this dataset is ``linearly separable'', what does this precisely mean in three-dimensional space?
+\ans{This means that the classes are separable by a 2-dimensional hyperplane. By introducing a plane, we are able to classify the dataset perfectly into 2 classes.}
 \item Why do we not minimize $\max(0, -y_i w^\top x_i)$ when we fit a binary linear classifier, even though it’s a convex approximation to the 0-1 loss?
+\ans{This is as it is a degenerate solution as 0 will always be the lowest possible value of f, which did not solve the original problem in the first place.}
 \item For a linearly-separable binary classification problem, how does an SVM classifier differ from a classifier found using the perceptron algorithm?
+\ans{The SVM classifier would find the best plane that maximizes the margin, and thus would have a more distinct seperation and slope. Whereas, the one using perceptron algorithm stops when it classifies data more correctly, and so the plane would fit perfectly to the edge cases and the slope would not be as distinct. }
 \item Which of the following methods produce linear classifiers? (a) binary least squares as in Question 3, (b) the perceptron algorithm, (c) SVMs, (d) logistic regression, and (e) KNN with $k=1$ and $n=2$.
+\ans{a, b, and c}
 \item Why do we use the polynomial kernel to implement the polynomial basis when $d$ and $p$ (degree of polynomial) are large?
+\ans{This is as when d and p are large, the memory that is required is also large, making them unable to be stored. A polynomial kernel reduces that memory required to store all of that.}
 \item What is the relationship between the softmax loss and the softmax function?
+\ans{The denominator of the softmax function is the negative exponential of the softmax loss.}
 }
 
 \pagebreak

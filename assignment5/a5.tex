@@ -1,0 +1,410 @@
+\documentclass{article}
+
+\usepackage{fullpage}
+\usepackage{color}
+\usepackage{amsmath}
+\usepackage{url}
+\usepackage{verbatim}
+\usepackage{graphicx}
+\usepackage{parskip}
+\usepackage{tkz-euclide}
+\usepackage{amssymb}
+\usepackage{multirow}
+\usepackage{booktabs}
+\usepackage{nicefrac}
+\usepackage{listings} % For displaying code
+\usepackage{algorithm2e} % pseudo-code
+
+% Answers
+\def\ans#1{\par\gre{Answer: #1}}
+%\def\ans#1{} % Comment this line to produce document with answers
+
+% Colors
+\definecolor{blu}{rgb}{0,0,1}
+\def\blu#1{{\color{blu}#1}}
+\definecolor{gre}{rgb}{0,.5,0}
+\def\gre#1{{\color{gre}#1}}
+\definecolor{red}{rgb}{1,0,0}
+\def\red#1{{\color{red}#1}}
+\def\norm#1{\|#1\|}
+
+% Math
+\def\R{\mathbb{R}}
+\def\argmax{\mathop{\rm arg\,max}}
+\def\argmin{\mathop{\rm arg\,min}}
+\newcommand{\mat}[1]{\begin{bmatrix}#1\end{bmatrix}}
+\newcommand{\alignStar}[1]{\begin{align*}#1\end{align*}}
+\def\half{\frac 1 2}
+\def\cond{\; | \;}
+
+% LaTeX
+\newcommand{\fig}[2]{\includegraphics[width=#1\textwidth]{a5f/#2}}
+\newcommand{\centerfig}[2]{\begin{center}\includegraphics[width=#1\textwidth]{a5f/#2}\end{center}}
+\def\items#1{\begin{itemize}#1\end{itemize}}
+\def\enum#1{\begin{enumerate}#1\end{enumerate}}
+
+
+\begin{document}
+
+\title{CPSC 340 Assignment 5 (due Friday November 25 at 11:55pm)}
+\author{}
+\date{}
+\maketitle
+\vspace{-4em}
+
+
+\blu{Name(s) and Student ID(s):}
+
+\section{Kernel Trick and SGD}
+
+In this question you will revisit questions from previous assignments, this time implementing the same (or similar) models using the ``kernel trick'' and SGD.
+
+\subsection{``Other'' Normal Equations}
+
+The script \emph{example\_nonLinear} loads a dataset from a previous assignment, and fits an L2-regularized least squares model with a bias term (the regularization leads to a small improvement in the test error, even for this 2-variable problem). Modify the \emph{leastSquaresBiasL2} function so that it uses the ``other'' normal equations we discussed in class,
+\[
+v = Z^T\underbrace{(ZZ^T + \lambda I)^{-1}y}_u.
+\]
+In particular, the training should result in an $n \times 1$ vetor $u$ of parameters, and predictions are made based on the training $Z$ and the vector $u$. \blu{Hand in your code for the modified function}.
+
+Hint: you should get the same predictions as the original funciton. To help debugging, you may want to first re-write the calculation of $v$ using the above formula, to verify that this gives you the same vector $v$.
+
+\ans{Squared train Error with least squares: 3551.961\\
+Squared test Error with least squares: 3393.095}
+\begin{lstlisting}
+function leastSquaresBiasL2(X,y,lambda)
+	# Add bias column
+	n = size(X,1)
+	Z = [ones(n,1) X]
+	
+	# Find regression weights minimizing squared error
+	v = Z'*inv(Z*Z' + lambda*I)*y
+
+	# Make linear prediction function
+	function predict(Xhat)
+		Zhat = [ones(size(Xhat,1),1) Xhat]
+		return (Zhat * Z') * inv(Z*Z' + lambda*I) * y
+	end
+
+	# Return model
+	return LinearModel(predict,v)
+end
+\end{lstlisting}
+
+\pagebreak
+\subsection{Polynomial Kernel}
+
+Write a new function, \emph{leastSquaresKernelBasis}, taking a degree $p$ and a regularization parameter $\lambda$. It should fit a degree-$p$ polynomial to the data, using the kernel trick to avoid ever forming the matrix $Z$. \blu{Hand in your code and the plot obtained with $p=3$ and $\lambda =10^{-6}$.}
+
+Hint: you may find it helpful to write a function \emph{polyKernel} that takes two matrices as inputs (either $X$ and $X$ or $\tilde{X}$ and $X$) and a degree $p$, and computes the polynomial kernel between all pairs of rows in the matrices.
+
+\ans{Squared train Error with least squares: 252.021\\
+Squared test Error with least squares: 242.790}
+\begin{lstlisting}
+function leastSquaresKernelBasis(X, y, p, lambda)
+	n = size(X, 1)
+	K = zeros(n, n)
+
+	for i in 1:n
+		for j in 1:n
+			K[i, j] = polyKernel(X[i, :], X[j, :], p)
+		end
+	end
+
+	u = (K + lambda * I)\(y)
+
+	function predict(Xhat)
+		t = size(Xhat, 1)
+		Khat = zeros(t, n)
+
+		for i in 1:t
+			for j in 1:n
+				Khat[i, j] = polyKernel(Xhat[i, :], X[j, :], p)
+			end
+		end
+
+		return Khat * u
+	end
+
+	return LinearModel(predict, u)
+end
+
+function polyKernel(xi, xj, p)
+	return (1 + xi' * xj)^p
+end
+\end{lstlisting}
+\fig{1}{Q1.2}
+
+
+\pagebreak
+\subsection{Gaussian-RBF Kernel}
+
+\blu{Repeat the previous question and report the same quantities, but using the Gaussian RBF kernel.} You can use $\sigma=1$ and $\lambda=10^{-6}$ for the plot.
+
+\ans{Squared train Error with least squares: 39.163\\
+Squared test Error with least squares: 70.580}
+\begin{lstlisting}
+function leastSquaresKernelRBF(X,y,sigma,lambda)
+	n = size(X, 1)
+
+	K = zeros(n, n)
+
+	for i in 1:n
+		for j in 1:n
+			K[i, j] = RBFKernel(X[i, :], X[j, :], sigma)
+		end
+	end
+	
+	u = (K + lambda * I)\(y)
+
+	function predict(Xhat)
+		t = size(Xhat, 1)
+		Khat = zeros(t, n)
+
+		for i in 1:t
+			for j in 1:n
+				Khat[i, j] = RBFKernel(Xhat[i, :], X[j, :], sigma)
+			end
+		end
+
+		return Khat * u
+	end
+	
+	return LinearModel(predict, u)
+end
+
+function RBFKernel(xi,xj,sigma)
+	return exp(-norm(xi-xj)^2/(2sigma^2))
+end
+\end{lstlisting}
+\fig{1}{Q1.3}
+
+
+\pagebreak
+\subsection{Stochastic Gradient Descent}
+
+Instead of using normal equations to fit a linear least squares model, the script \emph{example\_GD} fits the regularized linear model using gradient descent. It uses 500 iterations and a step size that guarantees that the regularized squared error decreases on each step. Modify this demo to implement stochastic gradient descent update, which on iteration $t$ uses
+\[
+v^{t+1} = v^t - \alpha_t ((v^Tz_i - y_i)z_i + (\lambda/n)v),
+\]
+where on each iteration $i$ is a random training example.
+\enum{
+\item \blu{Hand in your code implementing the SGD update.}
+\item Consider step sizes of the form $\alpha_t = \gamma/t$, $\alpha_t = \gamma/\sqrt{t}$, and $\alpha_t = \gamma$ (for some constant $\gamma$). If we consider value of $\gamma$ that are powers of 10, and run SGD for 500 iterations with $\lambda=1$, \blu{what value tends to give the best performance for each of these types of step sizes}?
+\item On this problem, \blu{which of the three types of step size do you think is best to use? And which is the worst to use?}
+}
+
+\ans{1. }
+\begin{lstlisting}
+for t in 1:500
+	i = rand(1:n)
+	global v -= alpha*((v'*Z[i, :]-y[i, :])[1]*Z[i,:] + (lambda/n)*v)
+	@show (1/2)norm(Z*v-y)^2 + lambda*norm(v)^2
+end
+\end{lstlisting}
+
+\ans{2. Not sure why my gamma are returning NAN, which are infinities.}
+
+\ans{3. I think the best step size to use would be $\alpha_t = \gamma/t$, and the worst step size to use is $\alpha_t = \gamma$.}
+
+\pagebreak
+
+\section{MAP Estimation}
+
+In class, we considered MAP estimation in a regression model where we assumed that:
+\items{
+\item The likelihood $p(y_i \cond x_i, w)$ for each example $i$ is a normal distribution with a mean of $w^Tx_i$ and a variance of $1$.
+\item The prior $p(w_j)$ for each variable $j$ is a normal distribution with a mean of zero and a variance of $\lambda^{-1}$.
+}
+Under these assumptions we showed that computing the MAP estimate with $n$ training examples leads to the standard L2-regularized least squares objective function:
+\[
+f(w) = \frac{1}{2}\norm{Xw - y}^2 + \frac \lambda 2 \norm{w}^2.
+\]
+\blu{For each of the alternate assumptions below, write down the objective function that results} (from minimizing the negative log-posterior, and simplifying as much as possible):
+\enum{
+\item  We use a Laplace likelihood with a mean of $w^Tx_i$ and a scale of $1$, and we use a zero-mean Laplace prior for each variable with a scale parameter of $\lambda^{-1}$,
+\[
+p(y_i \cond x_i, w) = \frac 1 2 \exp(-|w^Tx_i - y_i|), \quad  p(w_j) = \frac{\lambda}{2}\exp(-\lambda|w_j|).
+\]
+\ans{$p(w) = \Pi_{j=1}^d p(w_j) \\
+= (\frac{\lambda}{2}^d) \cdot \exp(-\lambda \sum_{j=1}^d |w_j| \\
+\\
+-log(p(w)) = -log(\frac{\lambda}{2}^d) + \lambda \norm{w}_1\\
+\\
+-log(p(y_i | x_i, w)) = \norm{Xw - y}_1 - n log(\frac{1}{2}) \\
+\\
+f(w) = -log(p(y_i | x_i, w) - log(p(w) \\
+\\
+f(w) = \norm{Xw - y}_1 + \lambda \norm{w}_1  - d log(\frac{\lambda}{2}) - n log(\frac{1}{2})
+$}
+\item We use a normal  likelihood with a mean of $w^Tx_i$ but where each example $i$ has its own  positive variance $\sigma_i^2$, and a normal prior with a variance of $\lambda^{-1}$ and a mean that is some ``guess'' $w^0$ of the optimal parameter vector,
+\[
+p(y_i \cond x_i,w) = \frac{1}{\sqrt{2\sigma_i^2\pi}}\exp\left(-\frac{(w^Tx_i - y_i)^2}{2\sigma_i^2}\right), \quad p(w_j) \propto \exp\left(-\frac{\lambda(w_j -  w^0_j)^2}{2}\right).
+\]
+The standard notation for this case is to use $\Sigma$ as a diagonal matrix with the $\sigma_i^2$ values along the diagonal.
+\ans{$p(w) = \Pi_{j=1}^d p(w_j) \\
+= \exp(-\frac{\lambda}{2} \sum_{j=1}^d (w_j -  w^0_j)^2 \\
+\\
+-log(p(w)) = \frac{\lambda}{2} \norm{w -  w^0}^2\\
+\\
+-log(p(y | x, w)) = (Xw-y)^T(\Sigma^{-1})(Xw - y) + n log(\sqrt{2\pi}) + \sum_{i=1}^n log({|\sigma_i|}) \\
+\text{NOTE: $\Sigma^{-1}$ is representative of the inverse of $\Sigma$} \\
+\\
+f(w) = -log(p(y | x, w) - log(p(w) \\
+\\
+f(w) = (Xw-y)^T(\Sigma^{-1})(Xw - y) + \frac{\lambda}{2} \norm{w -  w^0}^2 + n log(\sqrt{2\pi}) + \sum_{i=1}^n log({|\sigma_i|}))
+$}
+\pagebreak
+\item We use a Poisson likelihood with a mean of $\exp(w^Tx_i)$,\footnote{This is one way to use regression to model \emph{counts}, like ``number of Facebook likes''.} and we use a uniform prior for some constant $\kappa$,
+\[
+p(y_i \cond x_i, w) = \frac{\exp(y_iw^Tx_i)\exp(-\exp(w^Tx_i))}{y_i!}, \quad p(w_j) \propto \kappa
+\]
+For this sub-question you don't need to put likelihood in matrix notation.
+\ans{$p(w) = \Pi_{j=1}^d p(w_j) \\
+= d\kappa \\
+\\
+-log(p(w)) = -log(d\kappa)\\
+\\
+-log(p(y_i | x_i, w)) = -\sum_{i=1}^n \left(log(\exp(y_iw^Tx_i) + log(\exp(-\exp(w^Tx_i)) - log(y_i!) \right)\\
+\\
+= - y^TXw + \sum_{i=1}^n (\exp(w^Tx_i)) + \sum_{i=1}^n log(y_i!)\\
+\\
+f(w) =  - y^TXw + \sum_{i=1}^n (\exp(w^Tx_i)) + \sum_{i=1}^n log(y_i!) - log(d\kappa)
+$}
+\item We use a Laplace likelihood with a mean of $w^Tx_i$ where each example $i$ has its own positive scale paramater $v_i^{-1}$, and a  student $t$ prior (which is very robust to irrelevant features) with $\nu$ degrees of freedom,
+\[
+p(y_i \cond x_i, w) = \frac 1 2 \exp\left(-v_i|w^Tx_i - y_i|\right), \quad  p(w_j) = \frac{\Gamma\left(\frac{\nu + 1}{2}\right)}{\sqrt{\nu\pi}\Gamma\left(\frac \nu 2\right)}\left(1 + \frac{w_j^2}{\nu}\right)^{-\frac{\nu+1}{2}}
+\]
+where you use can $V$ as a diagonal matrix with the $v_i$ along the diagonal and $\Gamma$ is the ``gamma" function (which is always non-negative). You do not need to put the log-prior in matrix notation.
+\ans{$-log(p(w)) = -log(\Pi_{j=1}^d p(w_j)) \\
+\\
+-log(p(y_i | x_i, w)) = -n log(\frac{1}{2}) + \norm{V(Xw-y)}_1\\
+\\   
+f(w) =  -n log(\frac{1}{2}) + \norm{V(Xw-y)}_1 - log(\Pi_{j=1}^d p(w_j))
+$}
+}
+
+
+\pagebreak
+\section{Principal Component Analysis (PCA)}
+
+\subsection{PCA by Hand}
+
+Consider the following dataset, containing $n=5$ training examples and $t=1$ test example with $d=2$ features each:\\
+
+\definecolor{grey}{rgb}{0.75,0.75,0.75}
+\definecolor{blue}{rgb}{0.031,0.317,0.611}
+\definecolor{red}{rgb}{0.647,0.058,0.082}
+
+\begin{center}
+\fig{.4}{PCAbyHand1}
+\quad\quad
+\begin{tabular}{@{}p{0.5cm}@{}cc}
+\toprule
+& $x^1$ & $x^2$\\
+\midrule
+\multirow{5}{*}{\rotatebox{0}{$X$}} & 2 & 0\\
+&3 & 1\\
+&7 & 5\\
+&3 & 3\\
+&5 & 1\\
+\midrule
+$\widetilde{X}$ & 5 & 5\\
+\bottomrule
+\end{tabular}
+\end{center}
+\medskip
+
+\begin{enumerate}
+  \item Principal component analysis requires a centered feature matrix. \blu{Find the vector of means $\mu=\begin{bmatrix} \mu_1 \\ \mu_2 \end{bmatrix}$ and compute the centered feature matrix $X_c$.}
+  \pagebreak
+  \item Writing $G_c= \begin{bmatrix} g_{11} & g_{12}\\ g_{21} & g_{22} \end{bmatrix} = X_c^\top X_c$, the first principal component $w_1=\begin{bmatrix}w_{11} \\ w_{12}\end{bmatrix}$ is given by the {\bf normalized} solution to the linear system $(G_c-{\bf I}_d\lambda_1)\cdot w_1 = 0$, where $\lambda_1$ is the largest solution to the quadratic equation $\chi(\lambda)=(\lambda-g_{11})(\lambda-g_{22})-g_{12}g_{21}=0$.\footnote{$\chi$ is called the \emph{characteristic polynomial} of $G_c$ and its roots are eigenvalues $\lambda$ whose corresponding eigenvectors $w$ solve the equation $G_cw = \lambda w$.} The second principal component $w_2=\begin{bmatrix}w_{21} \\ w_{22}\end{bmatrix}$ is given by the {\bf normalized} solution to the linear equation $w_1^\top w_2 = 0$. \blu{Compute the two principal components $w_1$ and $w_2$ (show your work).}
+  \item The two principal components $w_1$ and $w_2$ form an orthonormal basis $W = \begin{bmatrix}w_{11} & w_{12}\\w_{21} & w_{22}\end{bmatrix}$ of $\mathbb{R}^2$. \blu{Represent the test point $\tilde{x}_1$ in this basis by performing an orthogonal projection $\tilde{z}_1 = \begin{bmatrix} \tilde{z}_{11} \\ \tilde{z}_{12} \end{bmatrix} = W(\tilde{x}_1-\mu)$ onto $w_1$ and $w_2$ (show your work).}
+  \pagebreak
+  \item We can now represent the PCA coordinate system in the orginal coordinate system. \blu{In the plot above, draw the two coordinate axes $5w_1$ and $5w_2$, using $\mu$ as origin. Then visualize the PCA coordinates $\tilde{z}_1$ computed in 3.1.3 by drawing two lines between the test point and its orthogonal projections onto $w_1$ (given by $\begin{bmatrix} \tilde{z}_{11} \\ 0 \end{bmatrix}$ in the PCA coordinate system) and $w_2$ (given by $\begin{bmatrix} 0 \\ \tilde{z}_{12} \end{bmatrix}$ in the PCA coordinate system). Finally, use the visualization to read off the coordinates of $\begin{bmatrix} \tilde{z}_{11} \\ 0 \end{bmatrix}$ and $\begin{bmatrix} 0 \\ \tilde{z}_{12} \end{bmatrix}$ in the {\bf original} coordinate system, which can be interpreted as reconstructions of $\tilde{x}_1$. Report both reconstructions and their L2 reconstruction errors (show your work).}
+  
+   Note: If you want, you can draw the PCA coordinate system and the orthogonal projections directly in Latex; see the commented lines below this one in a5.tex for an example. Hand-drawn results will also be accepted.
+   
+%   \begin{tikzpicture}[scale=0.5, baseline=(current bounding box.center)]
+%  \tkzInit[xmin=-0.9, xmax=10.9, ymin=-0.9, ymax=10.9]
+%  \tkzGrid[color=grey]
+%  \tkzDrawX[label = $x^1$, right = 4pt]
+%  \tkzDrawY[label = $x^2$, above = 4pt]
+%  \tkzDefPoint(2,0){P1}
+%  \tkzDefPoint(3,1){P2}
+%  \tkzDefPoint(7,5){P3}
+%  \tkzDefPoint(3,3){P4}
+%  \tkzDefPoint(5,1){P5}
+%  \tkzDefPoint(5,5){test}
+%
+%  %Add coordinate axes and orthogonal projections here
+%  %draw line
+%  %\draw[dashed, color = red, opacity=0.5, line width= 0.5pt, line cap=round] (0,0) -- (5, 5);
+%
+%  \tkzDrawPoints(P1,P2,P3,P4,P5)
+%  \tkzLabelPoint[above, blue, opacity=0.5](test){\scriptsize $\tilde{x}_{1}$};
+%  \tkzDrawPoint[blue, opacity=0.5](test)
+%
+%  \tkzLabelX[orig=false, node font = \scriptsize, step=2]
+%  \tkzLabelY[orig=false, node font = \scriptsize, step=2]
+%\end{tikzpicture}
+
+
+\end{enumerate}
+\pagebreak
+\subsection{Data Visualization}
+
+The script \emph{example\_PCA} will load a dataset containing 50 examples, each representing an animal. The 85 features are traits of these animals. The script also shows a heatmap of the data matrix $X$. Although it possible to try to interpret this heatmap, it is not as interpretable as a scatterplot.
+
+The function \emph{PCA} applies the classic PCA method (orthogonal bases via SVD) for a given $k$. Using this function, modify the demo to output a scatterplot of the latent features $z_i$ from the PCA model with $k=2$. You can use the \emph{scatter} function from \emph{Plots.jl} to output a scatterplot. Use the \emph{annotate!} function to label the points in the scatter plot with the animal names (I set \emph{annotationfontsize=8} when calling this function).
+\blu{
+\enum{
+\item  Hand in your modified demo and the scatterplot which has the annotated animal names.
+\pagebreak
+\item For each of the first three principal components answer the following: which animals are furthest apart according to this principal component, and which trait of the animals has the largest influence (absolute value) on the first principal component? (Make sure not to forget the ``+1'' when looking for the name of the animal/trait in the \emph{dataTable}).
+}
+}
+
+\pagebreak
+
+\subsection{Data Compression}
+
+It is important to know how much of the information in our dataset is captured by the low-dimensional PCA representation.
+In class we discussed the ``analysis" view that PCA maximizes the variance that is explained by the PCs, and the connection between the Frobenius norm and the variance of a centered data matrix $X$. Use this connection to answer the following:
+\blu{\enum{
+\item How much of the variance is explained by our two-dimensional representation from the previous question?
+\item How many\ PCs are required to explain 75\% of the variance in the data?
+}}
+Note: you can compute the Frobenius norm of a matrix using the function \emph{norm}. Also, note that the ``variance explained'' formula from class assumes that $X$ is already centered.
+
+
+\pagebreak
+
+\section{Very-Short Answer Questions}
+
+
+\enum{
+\item What is the difference between multi-label and multi-class classification?
+\item We discussed ``global'' vs. ``local'' features for e-mail classification. What is an advantage of using global features, and what is advantage of using local features?
+\item Describe the kernel trick in L2-regularized least squares in one sentence.
+\item What is the key advantage of stochastic gradient methods over gradient descent methods?
+\item Which of the following step-size sequences lead to convergence of stochastic gradient to a stationary point?
+\enum{
+\item $\alpha^t = 1/t^2$.
+\item $\alpha^t = 1/t$.
+\item $\alpha^t = \gamma/t$ (for $\gamma > 0$).
+\item $\alpha^t = 1/(t+\gamma)$ (for $\gamma > 0$).
+\item $\alpha^t = 1/\sqrt{t}$.
+\item $\alpha^t = 1$.
+}
+\item{Given discrete data $D$ and parameters $w$, is the expression $p(D|w)$ a probability mass function, a likelihood function, or both? Briefly justify your answer.}
+\item{Why is it often more convenient to minimize the negative log-likelihood than to maximize the likelihood?}
+\item How does the impact of the prior in MAP estimation change as we add more data?
+\item What is the difference between a generative model and a discriminative model?
+\item With PCA, is it possible for the loss to increase if $k$ is increased? Briefly justify your answer.
+\item Why doesn't it make sense to do PCA with $k > d$?
+\item In terms of the matrices associated with PCA ($X$, $W$, $Z$, $\hat{X}$), where would an ``eigenface'' be stored?
+}
+
+
+\end{document}
