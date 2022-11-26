@@ -337,37 +337,60 @@ G_c = \begin{bmatrix} 16 & 12 \\ 12 & 16 \end{bmatrix} \\
 \\
 (G_c-{\bf I}_d\lambda_1) =  \begin{bmatrix} -12 & 12 \\ 12 & -12 \end{bmatrix} \\
 \\
-w_{11} = w_{12} ?? \text{doesn't even make sense, not sure what is going on}
+\text{From this, $w_{11}$ = $w_{12}$. And taking the unit length of $w_1$, $w_{11} = \frac{1}{\sqrt{2}}$.}
+\\
+w_1=\begin{bmatrix}\frac{1}{\sqrt{2}} \\ \frac{1}{\sqrt{2}}\end{bmatrix} \\
+\\
+w_{21} = -w_{22} \\
+\\
+w_2 = \begin{bmatrix}\frac{1}{\sqrt{2}} \\ -\frac{1}{\sqrt{2}}\end{bmatrix} \\ 
 $}
+
   \item The two principal components $w_1$ and $w_2$ form an orthonormal basis $W = \begin{bmatrix}w_{11} & w_{12}\\w_{21} & w_{22}\end{bmatrix}$ of $\mathbb{R}^2$. \blu{Represent the test point $\tilde{x}_1$ in this basis by performing an orthogonal projection $\tilde{z}_1 = \begin{bmatrix} \tilde{z}_{11} \\ \tilde{z}_{12} \end{bmatrix} = W(\tilde{x}_1-\mu)$ onto $w_1$ and $w_2$ (show your work).}
+
+\ans{$
+W = \begin{bmatrix}
+\frac{1}{\sqrt{2}} & \frac{1}{\sqrt{2}} \\
+\frac{1}{\sqrt{2}} & -\frac{1}{\sqrt{2}}
+\end{bmatrix} \\
+\\
+\tilde{x}_1-\mu = \begin{bmatrix} 1 \\ 3 \end{bmatrix} \\
+\\
+\tilde{z}_1 = \begin{bmatrix} 2\sqrt{2} \\ -\sqrt{2} \end{bmatrix} \\
+$}
+
   \pagebreak
   \item We can now represent the PCA coordinate system in the orginal coordinate system. \blu{In the plot above, draw the two coordinate axes $5w_1$ and $5w_2$, using $\mu$ as origin. Then visualize the PCA coordinates $\tilde{z}_1$ computed in 3.1.3 by drawing two lines between the test point and its orthogonal projections onto $w_1$ (given by $\begin{bmatrix} \tilde{z}_{11} \\ 0 \end{bmatrix}$ in the PCA coordinate system) and $w_2$ (given by $\begin{bmatrix} 0 \\ \tilde{z}_{12} \end{bmatrix}$ in the PCA coordinate system). Finally, use the visualization to read off the coordinates of $\begin{bmatrix} \tilde{z}_{11} \\ 0 \end{bmatrix}$ and $\begin{bmatrix} 0 \\ \tilde{z}_{12} \end{bmatrix}$ in the {\bf original} coordinate system, which can be interpreted as reconstructions of $\tilde{x}_1$. Report both reconstructions and their L2 reconstruction errors (show your work).}
   
    Note: If you want, you can draw the PCA coordinate system and the orthogonal projections directly in Latex; see the commented lines below this one in a5.tex for an example. Hand-drawn results will also be accepted.
+
+\ans{not sure about this}
    
-%   \begin{tikzpicture}[scale=0.5, baseline=(current bounding box.center)]
-%  \tkzInit[xmin=-0.9, xmax=10.9, ymin=-0.9, ymax=10.9]
-%  \tkzGrid[color=grey]
-%  \tkzDrawX[label = $x^1$, right = 4pt]
-%  \tkzDrawY[label = $x^2$, above = 4pt]
-%  \tkzDefPoint(2,0){P1}
-%  \tkzDefPoint(3,1){P2}
-%  \tkzDefPoint(7,5){P3}
-%  \tkzDefPoint(3,3){P4}
-%  \tkzDefPoint(5,1){P5}
-%  \tkzDefPoint(5,5){test}
-%
-%  %Add coordinate axes and orthogonal projections here
-%  %draw line
-%  %\draw[dashed, color = red, opacity=0.5, line width= 0.5pt, line cap=round] (0,0) -- (5, 5);
-%
-%  \tkzDrawPoints(P1,P2,P3,P4,P5)
-%  \tkzLabelPoint[above, blue, opacity=0.5](test){\scriptsize $\tilde{x}_{1}$};
-%  \tkzDrawPoint[blue, opacity=0.5](test)
-%
-%  \tkzLabelX[orig=false, node font = \scriptsize, step=2]
-%  \tkzLabelY[orig=false, node font = \scriptsize, step=2]
-%\end{tikzpicture}
+\begin{tikzpicture}[scale=0.5, baseline=(current bounding box.center)]
+\tkzInit[xmin=-0.9, xmax=10.9, ymin=-0.9, ymax=10.9]
+\tkzGrid[color=grey]
+\tkzDrawX[label = $x^1$, right = 4pt]
+\tkzDrawY[label = $x^2$, above = 4pt]
+\tkzDefPoint(4,2){mean}
+\tkzDefPoint(1,3){test}
+\tkzDefPoint(6.5,4.5){w1}
+\tkzDefPoint(6.5,-0.5){w2}
+\tkzDefPoint(6.8284,2){pcaz1}
+\tkzDefPoint(4,0.5857){pcaz2}
+
+%Add coordinate axes and orthogonal projections here
+%draw line
+% \draw[dashed, color = red, opacity=0.5, line width= 0.5pt, line cap=round] (0,0) -- (5, 5);
+
+\tkzDrawPoints(mean,test,w1,w2,pcaz1,pcaz2)
+\tkzLabelPoint[above, blue, opacity=0.5](mean){\scriptsize $\mu$};
+\tkzLabelPoint[above, blue, opacity=0.5](test){\scriptsize $\tilde{x}_{1}$};
+\tkzLabelPoint[above, blue, opacity=0.5](w1){\scriptsize $5w_1$};
+\tkzLabelPoint[above, blue, opacity=0.5](w2){\scriptsize $5w_2$};
+
+% \tkzLabelX[orig=false, node font = \scriptsize, step=2]
+% \tkzLabelY[orig=false, node font = \scriptsize, step=2]
+\end{tikzpicture}
 
 
 \end{enumerate}
