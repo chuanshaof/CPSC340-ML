@@ -403,8 +403,14 @@ The function \emph{PCA} applies the classic PCA method (orthogonal bases via SVD
 \blu{
 \enum{
 \item  Hand in your modified demo and the scatterplot which has the annotated animal names.
+\ans{
+\fig{.4}{Q3.2}
+\fig{.4}{Q3.2 Code}
+}
 \pagebreak
 \item For each of the first three principal components answer the following: which animals are furthest apart according to this principal component, and which trait of the animals has the largest influence (absolute value) on the first principal component? (Make sure not to forget the ``+1'' when looking for the name of the animal/trait in the \emph{dataTable}).
+\ans{Not sure about this.\\
+Otter and Cow.}
 }
 }
 
@@ -416,7 +422,9 @@ It is important to know how much of the information in our dataset is captured b
 In class we discussed the ``analysis" view that PCA maximizes the variance that is explained by the PCs, and the connection between the Frobenius norm and the variance of a centered data matrix $X$. Use this connection to answer the following:
 \blu{\enum{
 \item How much of the variance is explained by our two-dimensional representation from the previous question?
+\ans{71 percent? Taken from the notes/}
 \item How many\ PCs are required to explain 75\% of the variance in the data?
+\ans{}
 }}
 Note: you can compute the Frobenius norm of a matrix using the function \emph{norm}. Also, note that the ``variance explained'' formula from class assumes that $X$ is already centered.
 
@@ -458,7 +466,7 @@ Note: you can compute the Frobenius norm of a matrix using the function \emph{no
 \item Why doesn't it make sense to do PCA with $k > d$?
 \ans{This is as it does not make sense to have more dimension of w than dimesions of features. When there are more dimension of w, it becomes redundant as X will never exist in the additional dimensions.}
 \item In terms of the matrices associated with PCA ($X$, $W$, $Z$, $\hat{X}$), where would an ``eigenface'' be stored?
-ans{}
+\ans{The eigenface would be stored in rows of $Z$.}
 }
 
 
